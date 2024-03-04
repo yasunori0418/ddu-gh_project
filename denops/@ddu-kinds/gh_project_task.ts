@@ -63,6 +63,8 @@ type BufInfo = {
   bufname: string;
 };
 
+type ActionFunction = (args: ActionArguments<Params>) => Promise<ActionFlags>;
+
 function defineAutocmd(
   denops: Denops,
   bufnr: number,
@@ -110,11 +112,7 @@ function createTomlData(action: ActionData): string[] {
 }
 
 export class Kind extends BaseKind<Params> {
-  override actions: Record<
-    string,
-    (args: ActionArguments<Params>) => Promise<ActionFlags>
-  > = {
-    echo: (args: { items: DduItem[] }) => {
+  actions: Record<string, ActionFunction> = {
       for (const item of args.items) {
         const action = item.action as ActionData;
         console.log(`title: "${action.title}"`);
