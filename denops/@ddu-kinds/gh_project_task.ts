@@ -113,6 +113,7 @@ function createTomlData(action: ActionData): string[] {
 
 export class Kind extends BaseKind<Params> {
   actions: Record<string, ActionFunction> = {
+    echo: (args: { items: DduItem[] }) => {
       for (const item of args.items) {
         const action = item.action as ActionData;
         console.log(`title: "${action.title}"`);
