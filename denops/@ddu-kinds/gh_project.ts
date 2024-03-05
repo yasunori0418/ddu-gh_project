@@ -7,21 +7,7 @@ import {
   Previewer,
 } from "https://deno.land/x/ddu_vim@v3.10.2/types.ts";
 import { Denops } from "https://deno.land/x/ddu_vim@v3.10.2/deps.ts";
-
-export type ActionData = {
-  closed: boolean;
-  fieldsTotalCount: number;
-  id: string;
-  itemsTotalCount: number;
-  number: number;
-  ownerLogin: string;
-  ownerType: string;
-  isPublic: boolean;
-  readme: string;
-  shortDescription: string;
-  title: string;
-  url: string;
-};
+import { KindActionData as ActionData } from "../ddu-source-gh_project/type/gh_project.ts";
 
 type Params = Record<never, never>;
 

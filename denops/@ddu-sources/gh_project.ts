@@ -8,7 +8,11 @@ import {
   GatherArguments,
 } from "https://deno.land/x/ddu_vim@v3.10.2/base/source.ts";
 import { JSONLinesParseStream } from "https://deno.land/x/jsonlines@v1.2.2/mod.ts";
-import { ActionData } from "../@ddu-kinds/gh_project.ts";
+import {
+  GHProject,
+  KindActionData as ActionData,
+  SourceParams as Params,
+} from "../ddu-source-gh_project/type/gh_project.ts";
 
 function parseGHProjectAction(project: GHProject): ActionData {
   const {
@@ -50,33 +54,6 @@ function parseGHProjectItem(project: GHProject): Item<ActionData> {
     kind: "gh_project",
   };
 }
-
-type Params = {
-  cmd: string;
-  owner: string;
-  limit: number;
-};
-
-type GHProject = {
-  closed: boolean,
-  fields: {
-    totalCount: number
-  },
-  id: string,
-  items: {
-    totalCount: number,
-  },
-  number: number,
-  owner: {
-    login: string,
-    type: string
-  },
-  public: boolean,
-  readme: string,
-  shortDescription: string,
-  title: string,
-  url: string
-};
 
 export class Source extends BaseSource<Params> {
   override kind = "gh_project";
