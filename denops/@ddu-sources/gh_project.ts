@@ -12,7 +12,7 @@ import {
   GHProject,
   KindActionData as ActionData,
   SourceParams as Params,
-} from "../ddu-source-gh_project/type/gh_project.ts";
+} from "../ddu-source-gh_project/type/project.ts";
 
 function parseGHProjectAction(project: GHProject): ActionData {
   const {
