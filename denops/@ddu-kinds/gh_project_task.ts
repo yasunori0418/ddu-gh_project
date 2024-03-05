@@ -13,8 +13,8 @@ import {
 } from "https://deno.land/x/ddu_vim@v3.10.2/deps.ts";
 import { stringify as tomlStringify } from "https://deno.land/std@0.218.2/toml/mod.ts";
 import {
-  KindActionData as ActionData,
   BufInfo,
+  KindActionData as ActionData,
   TaskEdit,
   TaskField,
 } from "../ddu-source-gh_project/type.ts";
