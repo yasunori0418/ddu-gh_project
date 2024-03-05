@@ -13,17 +13,7 @@ import {
 } from "https://deno.land/x/ddu_vim@v3.10.2/deps.ts";
 import { GHProjectTaskField } from "../@ddu-sources/gh_project_task.ts";
 import { stringify as tomlStringify } from "https://deno.land/std@0.218.2/toml/mod.ts";
-
-/**
- * 特定のプロパティを上書きする型関数
- * Reference: https://qiita.com/ibaragi/items/2a6412aeaca5703694b1
- */
-type Overwrite<T, U extends { [Key in keyof T]?: unknown }> =
-  & Omit<
-    T,
-    keyof U
-  >
-  & U;
+import { Overwrite } from "../ddu-source-gh_project/utils.ts";
 
 export type Task = {
   projectId: string;
