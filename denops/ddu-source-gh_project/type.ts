@@ -1,6 +1,6 @@
 import { Overwrite } from "./utils.ts";
 
-export type Task = {
+type Task = {
   projectId: string;
   taskId: string;
   title: string;
@@ -26,9 +26,17 @@ export type TaskEdit = Overwrite<
   { body: string[]; taskFields: TaskField[] }
 >;
 
-export type ActionData = Task & {
+export type KindActionData = Task & {
   type: "DraftIssue" | "Issue" | "PullRequest";
   fields: GHProjectTaskField[];
+};
+
+export type SourceParams = {
+  cmd: string;
+  owner: string;
+  limit: number;
+  projectId?: string;
+  projectNumber?: number;
 };
 
 /**
@@ -76,4 +84,3 @@ export type BufInfo = {
   bufnr: number;
   bufname: string;
 };
-

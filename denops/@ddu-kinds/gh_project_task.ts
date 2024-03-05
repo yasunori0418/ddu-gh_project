@@ -13,7 +13,7 @@ import {
 } from "https://deno.land/x/ddu_vim@v3.10.2/deps.ts";
 import { stringify as tomlStringify } from "https://deno.land/std@0.218.2/toml/mod.ts";
 import {
-  ActionData,
+  KindActionData as ActionData,
   BufInfo,
   TaskEdit,
   TaskField,

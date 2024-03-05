@@ -8,49 +8,12 @@ import {
   GatherArguments,
 } from "https://deno.land/x/ddu_vim@v3.10.2/base/source.ts";
 import { JSONLinesParseStream } from "https://deno.land/x/jsonlines@v1.2.2/mod.ts";
-import { ActionData } from "../@ddu-kinds/gh_project_task.ts";
-
-type Params = {
-  cmd: string;
-  owner: string;
-  limit: number;
-  projectId?: string;
-  projectNumber?: number;
-};
-
-type GHProjectTaskContent = {
-  title: string;
-  body: string;
-  type:
-    | "DraftIssue"
-    | "Issue"
-    | "PullRequest";
-  number?: number;
-  repository?: string;
-  url?: string;
-  id?: string;
-};
-
-type GHProjectTask = {
-  id: string;
-  status: string;
-  title: string;
-  content: GHProjectTaskContent;
-  assignees?: string[];
-  repository?: string;
-};
-
-export type GHProjectTaskField = {
-  id: string;
-  name: string;
-  type: string;
-  options?: GHProjectTaskSingleSelectField[];
-};
-
-type GHProjectTaskSingleSelectField = {
-  id: string;
-  name: string;
-};
+import {
+  GHProjectTask,
+  GHProjectTaskField,
+  KindActionData as ActionData,
+  SourceParams as Params,
+} from "../ddu-source-gh_project/type.ts";
 
 export class Source extends BaseSource<Params> {
   override kind = "gh_project_task";
