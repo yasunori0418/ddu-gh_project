@@ -17,7 +17,7 @@ import {
   KindActionData as ActionData,
   TaskEdit,
   TaskField,
-} from "../ddu-source-gh_project/type.ts";
+} from "../ddu-source-gh_project/type/task.ts";
 
 type Params = Record<never, never>;
 

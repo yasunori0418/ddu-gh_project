@@ -13,7 +13,7 @@ import {
   GHProjectTaskField,
   KindActionData as ActionData,
   SourceParams as Params,
-} from "../ddu-source-gh_project/type.ts";
+} from "../ddu-source-gh_project/type/task.ts";
 
 export class Source extends BaseSource<Params> {
   override kind = "gh_project_task";

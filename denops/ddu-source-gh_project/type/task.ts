@@ -1,4 +1,4 @@
-import { Overwrite } from "./utils.ts";
+import { Overwrite } from "../utils.ts";
 
 type Task = {
   projectId: string;
