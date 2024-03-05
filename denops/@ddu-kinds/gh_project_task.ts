@@ -11,47 +11,15 @@ import {
   Denops,
   fn,
 } from "https://deno.land/x/ddu_vim@v3.10.2/deps.ts";
-import { GHProjectTaskField } from "../@ddu-sources/gh_project_task.ts";
 import { stringify as tomlStringify } from "https://deno.land/std@0.218.2/toml/mod.ts";
-import { Overwrite } from "../ddu-source-gh_project/utils.ts";
-
-export type Task = {
-  projectId: string;
-  taskId: string;
-  title: string;
-  body: string;
-  currentStatus: string;
-};
-
-export type TaskField = {
-  id: string;
-  name: string;
-  text?: string;
-  options?: TaskFieldOption[];
-};
-
-type TaskFieldOption = {
-  id: string;
-  name: string;
-  currentStatusFlag?: boolean;
-};
-
-export type TaskEdit = Overwrite<
-  Task,
-  { body: string[]; taskFields: TaskField[] }
->;
-
-export type ActionData = Task & {
-  type: "DraftIssue" | "Issue" | "PullRequest";
-  fields: GHProjectTaskField[];
-};
+import {
+  ActionData,
+  BufInfo,
+  TaskEdit,
+  TaskField,
+} from "../ddu-source-gh_project/type.ts";
 
 type Params = Record<never, never>;
-
-type BufInfo = {
-  bufnr: number;
-  bufname: string;
-};
 
 type ActionFunction = (args: ActionArguments<Params>) => Promise<ActionFlags>;
 
