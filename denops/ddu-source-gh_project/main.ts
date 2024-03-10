@@ -1,15 +1,13 @@
 import { Denops } from "https://deno.land/x/denops_std@v6.3.0/mod.ts";
 import { ensure, is } from "https://deno.land/x/unknownutil@v3.17.0/mod.ts";
 import { parse as tomlParse } from "https://deno.land/std@0.219.1/toml/mod.ts";
-import { isTaskEdit, TaskEdit } from "./type/task.ts";
-import { cmd } from "./utils.ts";
+import { isTaskEdit } from "./type/task.ts";
 
 export function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async send(buflines: unknown): Promise<void> {
       const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
-      const taskData = ensure(tomlParse(tomlString), isTaskEdit) as TaskEdit;
-      console.log(taskData);
+      const taskData = ensure(tomlParse(tomlString), isTaskEdit);
       const editBaseArgs: string[] = [
         "project",
         "item-edit",
@@ -17,7 +15,7 @@ export function main(denops: Denops): Promise<void> {
         taskData.taskId,
       ];
       if (taskData.taskType === "DraftIssue") {
-        const { finalize } = cmd("gh", {
+        new Deno.Command("gh", {
           args: [
             ...editBaseArgs,
             "--title",
@@ -25,8 +23,10 @@ export function main(denops: Denops): Promise<void> {
             "--body",
             taskData.body.join("\n"),
           ],
-        });
-        await finalize();
+          stdin: "null",
+          stderr: "null",
+          stdout: "null",
+        }).spawn();
       }
       return await Promise.resolve();
     },
