@@ -6,7 +6,7 @@ import {
   // DduItem,
   // PreviewContext,
   // Previewer,
-} from "https://deno.land/x/ddu_vim@v3.10.2/types.ts";
+} from "https://deno.land/x/ddu_vim@v3.10.3/types.ts";
 import { KindParams as Params } from "../ddu-source-gh_project/type/common.ts";
 import { edit } from "../ddu-source-gh_project/actions/task/edit.ts";
 import { echo } from "../ddu-source-gh_project/actions/task/echo.ts";
