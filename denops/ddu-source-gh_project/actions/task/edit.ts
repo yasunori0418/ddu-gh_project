@@ -42,7 +42,13 @@ function createTomlData(action: ActionData): string[] {
       id: field.id,
       name: field.name,
     };
-    if (!field.options) taskField.text = "";
+    if (!field.options) {
+      if (field.name === "Title") {
+        taskField.text = action.title;
+      } else {
+        taskField.text = "";
+      }
+    }
     if (field.options) {
       taskField.options = [];
       for (const option of field.options) {
