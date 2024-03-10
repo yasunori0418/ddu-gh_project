@@ -1,13 +1,3 @@
-import { Overwrite } from "../utils.ts";
-
-type Task = {
-  projectId: string;
-  taskId: string;
-  title: string;
-  body: string;
-  currentStatus: string;
-};
-
 export type TaskField = {
   id: string;
   name: string;
@@ -21,12 +11,21 @@ export type TaskFieldOption = {
   currentStatusFlag?: boolean;
 };
 
-export type TaskEdit = Overwrite<
-  Task,
-  { body: string[]; taskFields: TaskField[] }
->;
+export type TaskEdit = {
+  projectId: string;
+  taskId: string;
+  title: string;
+  body: string[];
+  currentStatus: string;
+  taskFields: TaskField[];
+};
 
-export type KindActionData = Task & {
+export type KindActionData = {
+  projectId: string;
+  taskId: string;
+  title: string;
+  body: string;
+  currentStatus: string;
   type: "DraftIssue" | "Issue" | "PullRequest";
   fields: GHProjectTaskField[];
 };

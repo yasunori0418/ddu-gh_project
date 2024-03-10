@@ -1,5 +1,3 @@
-// import { Overwrite } from "../utils.ts";
-
 export type KindActionData = {
   closed: boolean;
   fieldsTotalCount: number;
