@@ -32,7 +32,7 @@ export type TaskEdit = {
   title: string;
   body: string[];
   taskType: "DraftIssue" | "Issue" | "PullRequest";
-  currentStatus: string;
+  currentStatus: string | 0;
   taskFields: TaskField[];
 };
 
