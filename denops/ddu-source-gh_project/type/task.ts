@@ -1,3 +1,11 @@
+import { is } from "https://deno.land/x/unknownutil@v3.16.3/mod.ts";
+
+export type TaskFieldOption = {
+  id: string;
+  name: string;
+  currentStatusFlag?: boolean;
+};
+
 export type TaskField = {
   id: string;
   name: string;
@@ -5,11 +13,18 @@ export type TaskField = {
   options?: TaskFieldOption[];
 };
 
-export type TaskFieldOption = {
-  id: string;
-  name: string;
-  currentStatusFlag?: boolean;
-};
+export const isTaskFieldOption = is.ObjectOf({
+  id: is.String,
+  name: is.String,
+  currentStatusFlag: is.OptionalOf(is.Boolean),
+});
+
+export const isTaskField = is.ObjectOf({
+  id: is.String,
+  name: is.String,
+  text: is.OptionalOf(is.String),
+  options: is.OptionalOf(isTaskFieldOption),
+});
 
 export type TaskEdit = {
   projectId: string;
@@ -19,6 +34,15 @@ export type TaskEdit = {
   currentStatus: string;
   taskFields: TaskField[];
 };
+
+export const isTaskEdit = is.ObjectOf({
+  projectId: is.String,
+  taskId: is.String,
+  title: is.String,
+  body: is.ArrayOf(is.String),
+  currentStatus: is.String,
+  taskFields: isTaskField,
+});
 
 export type KindActionData = {
   projectId: string;
