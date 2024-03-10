@@ -23,7 +23,7 @@ export const isTaskField = is.ObjectOf({
   id: is.String,
   name: is.String,
   text: is.OptionalOf(is.String),
-  options: is.OptionalOf(isTaskFieldOption),
+  options: is.OptionalOf(is.ArrayOf(isTaskFieldOption)),
 });
 
 export type TaskEdit = {
@@ -41,7 +41,7 @@ export const isTaskEdit = is.ObjectOf({
   title: is.String,
   body: is.ArrayOf(is.String),
   currentStatus: is.String,
-  taskFields: isTaskField,
+  taskFields: is.ArrayOf(isTaskField),
 });
 
 export type KindActionData = {
