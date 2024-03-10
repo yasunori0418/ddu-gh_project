@@ -42,7 +42,7 @@ export const isTaskEdit = is.ObjectOf({
   title: is.String,
   body: is.ArrayOf(is.String),
   taskType: is.LiteralOneOf(["DraftIssue", "Issue", "PullRequest"] as const),
-  currentStatus: is.String,
+  currentStatus: is.UnionOf([is.String, is.LiteralOf(0)]),
   taskFields: is.ArrayOf(isTaskField),
 });
 
