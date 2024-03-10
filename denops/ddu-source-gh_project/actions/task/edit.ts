@@ -32,6 +32,7 @@ function createTomlData(action: ActionData): string[] {
     taskId: action.taskId,
     title: action.title,
     body: action.body.split(/\n/),
+    taskType: action.type,
     currentStatus: action.currentStatus,
     taskFields: [],
   };

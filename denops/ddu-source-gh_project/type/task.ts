@@ -31,6 +31,7 @@ export type TaskEdit = {
   taskId: string;
   title: string;
   body: string[];
+  taskType: "DraftIssue" | "Issue" | "PullRequest";
   currentStatus: string;
   taskFields: TaskField[];
 };
