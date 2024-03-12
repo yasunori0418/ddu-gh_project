@@ -29,6 +29,7 @@ export const isTaskField = is.ObjectOf({
 export type TaskEdit = {
   projectId: string;
   taskId: string;
+  draftIssueID: string;
   title: string;
   body: string[];
   taskType: "DraftIssue" | "Issue" | "PullRequest";
@@ -39,6 +40,7 @@ export type TaskEdit = {
 export const isTaskEdit = is.ObjectOf({
   projectId: is.String,
   taskId: is.String,
+  draftIssueID: is.String,
   title: is.String,
   body: is.ArrayOf(is.String),
   taskType: is.LiteralOneOf(["DraftIssue", "Issue", "PullRequest"] as const),
