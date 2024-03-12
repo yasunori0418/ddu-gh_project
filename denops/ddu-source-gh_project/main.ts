@@ -28,6 +28,52 @@ export function main(denops: Denops): Promise<void> {
           stdout: "null",
         }).spawn();
       }
+      for (const field of taskData.taskFields) {
+        console.log(field);
+        const editFieldArgs: string[] = [
+          "--project-id",
+          taskData.projectId,
+          "--field-id",
+          field.id,
+        ];
+        if (field.text) {
+          console.log("edit text field");
+          new Deno.Command("gh", {
+            args: [
+              ...editBaseArgs,
+              ...editFieldArgs,
+              "--text",
+              field.text,
+            ],
+            stdin: "null",
+            stderr: "null",
+            stdout: "null",
+          }).spawn();
+        }
+        if (field.options) {
+          console.log("exists field.options");
+          if (field.name === "Status") {
+            console.log("edit status option field");
+            const currentStatus = field.options.find((option) =>
+              option.currentStatusFlag
+            );
+            console.log(currentStatus);
+            if (currentStatus) {
+              new Deno.Command("gh", {
+                args: [
+                  ...editBaseArgs,
+                  ...editFieldArgs,
+                  "--single-select-option-id",
+                  currentStatus.id,
+                ],
+                stdin: "null",
+                stderr: "null",
+                stdout: "null",
+              }).spawn();
+            }
+          }
+        }
+      }
       return await Promise.resolve();
     },
   };
