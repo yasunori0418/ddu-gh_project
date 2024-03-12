@@ -123,7 +123,9 @@ export class Source extends BaseSource<Params> {
                 );
               },
             }),
-          );
+          ).finally(async () => {
+            await stdout.cancel();
+          });
       },
     });
   }
