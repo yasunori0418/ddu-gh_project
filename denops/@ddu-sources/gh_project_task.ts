@@ -39,6 +39,48 @@ function parseSourceItems(
     },
   };
 }
+
+function getProjectTaskFields(sourceParams: Params): GHProjectTaskField[] {
+  const projectNumber = sourceParams.projectNumber;
+  if (!projectNumber) throw "required projectNumber";
+  const projectId = sourceParams.projectId;
+  if (!projectId) throw "required projectId";
+
+  const { stdout } = new Deno.Command(sourceParams.cmd, {
+    args: [
+      "project",
+      "field-list",
+      projectNumber.toString(),
+      "--owner",
+      sourceParams.owner,
+      "--limit",
+      sourceParams.limit.toString(),
+      "--format",
+      "json",
+    ],
+    stdin: "null",
+    stderr: "null",
+    stdout: "piped",
+  }).spawn();
+
+  const taskFields: GHProjectTaskField[] = [];
+  stdout
+    .pipeThrough(new TextDecoderStream())
+    .pipeThrough(new JSONLinesParseStream())
+    .pipeTo(
+      new WritableStream<{ fields: GHProjectTaskField[] }>({
+        write(chunk: { fields: GHProjectTaskField[] }) {
+          for (const filed of chunk.fields) {
+            taskFields.push(filed);
+          }
+        },
+      }),
+    ).finally(async () => {
+      await stdout.cancel();
+    });
+  return taskFields;
+}
+
 export class Source extends BaseSource<Params> {
   override kind = "gh_project_task";
 
@@ -49,42 +91,8 @@ export class Source extends BaseSource<Params> {
       async start(controller) {
         const projectNumber = sourceParams.projectNumber;
         if (!projectNumber) throw "required projectNumber";
-        const projectId = sourceParams.projectId;
-        if (!projectId) throw "required projectId";
 
-        const taskFieldsPipeout = new Deno.Command(sourceParams.cmd, {
-          args: [
-            "project",
-            "field-list",
-            projectNumber.toString(),
-            "--owner",
-            sourceParams.owner,
-            "--limit",
-            sourceParams.limit.toString(),
-            "--format",
-            "json",
-          ],
-          stdin: "null",
-          stderr: "null",
-          stdout: "piped",
-        }).spawn();
-
-        const taskFields: GHProjectTaskField[] = [];
-        await taskFieldsPipeout.stdout
-          .pipeThrough(new TextDecoderStream())
-          .pipeThrough(new JSONLinesParseStream())
-          .pipeTo(
-            new WritableStream<{ fields: GHProjectTaskField[] }>({
-              write(chunk: { fields: GHProjectTaskField[] }) {
-                for (const filed of chunk.fields) {
-                  taskFields.push(filed);
-                }
-              },
-            }),
-          ).finally(async () => {
-            await taskFieldsPipeout.stdout.cancel();
-          });
-
+        const taskFields = getProjectTaskFields(sourceParams);
         const { stdout } = new Deno.Command(sourceParams.cmd, {
           args: [
             "project",
