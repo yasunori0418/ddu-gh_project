@@ -15,6 +15,30 @@ import {
   SourceParams as Params,
 } from "../ddu-source-gh_project/type/task.ts";
 
+function parseSourceItems(
+  task: GHProjectTask,
+  taskFields: GHProjectTaskField[],
+  sourceParams: Params,
+): Item<ActionData> {
+  // const projectNumber = sourceParams.projectNumber;
+  // if (!projectNumber) throw "required projectNumber";
+  const projectId = sourceParams.projectId;
+  if (!projectId) throw "required projectId";
+
+  return {
+    word: task.title,
+    display: `[${task.status}] ${task.title}`,
+    action: {
+      taskId: task.content.id ?? task.id,
+      projectId: projectId,
+      title: task.title,
+      type: task.content.type,
+      body: task.content.body,
+      currentStatus: task.status,
+      fields: taskFields,
+    },
+  };
+}
 export class Source extends BaseSource<Params> {
   override kind = "gh_project_task";
 
@@ -85,21 +109,9 @@ export class Source extends BaseSource<Params> {
             new WritableStream<{ items: GHProjectTask[] }>({
               write(task: { items: GHProjectTask[] }) {
                 controller.enqueue(
-                  task.items.map((item: GHProjectTask): Item<ActionData> => {
-                    return {
-                      word: item.title,
-                      display: `[${item.status}] ${item.title}`,
-                      action: {
-                        taskId: item.content.id ?? item.id,
-                        projectId: projectId,
-                        title: item.title,
-                        type: item.content.type,
-                        body: item.content.body,
-                        currentStatus: item.status,
-                        fields: taskFields,
-                      },
-                    };
-                  }).reverse(),
+                  task.items.map((item) =>
+                    parseSourceItems(item, taskFields, sourceParams)
+                  ).reverse(),
                 );
               },
             }),
