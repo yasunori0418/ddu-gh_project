@@ -28,6 +28,7 @@ export const isTaskField = is.ObjectOf({
 
 export type TaskEdit = {
   projectId: string;
+  projectNumber: number;
   taskId: string;
   draftIssueID: string;
   title: string;

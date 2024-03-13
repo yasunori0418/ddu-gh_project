@@ -29,7 +29,9 @@ function defineAutocmd(
 function createTomlData(action: ActionData): string[] {
   const task: TaskEdit = {
     projectId: action.projectId,
+    projectNumber: action.projectNumber,
     taskId: action.taskId,
+    draftIssueID: action.draftIssueID,
     title: action.title,
     body: action.body.split(/\n/),
     taskType: action.type,
