@@ -51,7 +51,7 @@ function parseSourceItems(
   };
 }
 
-function getProjectTaskFields(sourceParams: Params): GHProjectTaskField[] {
+async function getProjectTaskFields(sourceParams: Params): Promise<GHProjectTaskField[]> {
   const projectNumber = sourceParams.projectNumber;
   if (!projectNumber) throw "required projectNumber";
   const projectId = sourceParams.projectId;
@@ -75,7 +75,7 @@ function getProjectTaskFields(sourceParams: Params): GHProjectTaskField[] {
   }).spawn();
 
   const taskFields: GHProjectTaskField[] = [];
-  stdout
+  await stdout
     .pipeThrough(new TextDecoderStream())
     .pipeThrough(new JSONLinesParseStream())
     .pipeTo(
@@ -103,7 +103,7 @@ export class Source extends BaseSource<Params> {
         const projectNumber = sourceParams.projectNumber;
         if (!projectNumber) throw "required projectNumber";
 
-        const taskFields = getProjectTaskFields(sourceParams);
+        const taskFields = await getProjectTaskFields(sourceParams);
         const { stdout } = new Deno.Command(sourceParams.cmd, {
           args: [
             "project",
