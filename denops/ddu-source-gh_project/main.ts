@@ -29,7 +29,6 @@ export function main(denops: Denops): Promise<void> {
         }).spawn();
       }
       for (const field of taskData.taskFields) {
-        console.log(field);
         const editFieldArgs: string[] = [
           "--project-id",
           taskData.projectId,
@@ -37,7 +36,6 @@ export function main(denops: Denops): Promise<void> {
           field.id,
         ];
         if (field.text) {
-          console.log("edit text field");
           new Deno.Command("gh", {
             args: [
               ...editBaseArgs,
@@ -51,13 +49,10 @@ export function main(denops: Denops): Promise<void> {
           }).spawn();
         }
         if (field.options) {
-          console.log("exists field.options");
           if (field.name === "Status") {
-            console.log("edit status option field");
             const currentStatus = field.options.find((option) =>
               option.currentStatusFlag
             );
-            console.log(currentStatus);
             if (currentStatus) {
               new Deno.Command("gh", {
                 args: [
