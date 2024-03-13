@@ -50,7 +50,9 @@ export const isTaskEdit = is.ObjectOf({
 
 export type KindActionData = {
   projectId: string;
+  projectNumber: number;
   taskId: string;
+  draftIssueID: string;
   title: string;
   body: string;
   currentStatus: string;

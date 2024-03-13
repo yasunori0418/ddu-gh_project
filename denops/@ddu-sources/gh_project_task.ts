@@ -15,28 +15,39 @@ import {
   SourceParams as Params,
 } from "../ddu-source-gh_project/type/task.ts";
 
+function parseActionData(
+  task: GHProjectTask,
+  taskFields: GHProjectTaskField[],
+  sourceParams: Params,
+): ActionData {
+  const projectNumber = sourceParams.projectNumber;
+  if (!projectNumber) throw "required projectNumber";
+  const projectId = sourceParams.projectId;
+  if (!projectId) throw "required projectId";
+  const draftIssueID = task.content.id ?? "";
+
+  return {
+    projectId: projectId,
+    taskId: task.id,
+    draftIssueID: draftIssueID,
+    projectNumber: projectNumber,
+    title: task.title,
+    body: task.content.body,
+    type: task.content.type,
+    currentStatus: task.status,
+    fields: taskFields,
+  };
+}
+
 function parseSourceItems(
   task: GHProjectTask,
   taskFields: GHProjectTaskField[],
   sourceParams: Params,
 ): Item<ActionData> {
-  // const projectNumber = sourceParams.projectNumber;
-  // if (!projectNumber) throw "required projectNumber";
-  const projectId = sourceParams.projectId;
-  if (!projectId) throw "required projectId";
-
   return {
     word: task.title,
     display: `[${task.status}] ${task.title}`,
-    action: {
-      taskId: task.content.id ?? task.id,
-      projectId: projectId,
-      title: task.title,
-      type: task.content.type,
-      body: task.content.body,
-      currentStatus: task.status,
-      fields: taskFields,
-    },
+    action: parseActionData(task, taskFields, sourceParams),
   };
 }
 
