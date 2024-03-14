@@ -7,12 +7,7 @@ import {
   tomlStringify,
 } from "../../deps.ts";
 import { KindParams as Params } from "../../type/common.ts";
-import {
-  BufInfo,
-  ActionData,
-  TaskEdit,
-  TaskField,
-} from "../../type/task.ts";
+import { ActionData, BufInfo, TaskEdit, TaskField } from "../../type/task.ts";
 
 function defineAutocmd(
   denops: Denops,
@@ -69,7 +64,9 @@ function createTomlData(action: ActionData): string[] {
   return tomlStringify(task).split(/\n/);
 }
 
-export async function edit(args: ActionArguments<Params>) {
+export async function edit(
+  args: ActionArguments<Params>,
+): Promise<ActionFlags> {
   const denops = args.denops;
   const action = args.items[0].action as ActionData;
   const { bufnr, bufname } = await denops.call(
