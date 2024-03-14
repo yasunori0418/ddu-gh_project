@@ -5,8 +5,8 @@ import {
   DduItem,
   PreviewContext,
   Previewer,
-} from "https://deno.land/x/ddu_vim@v3.10.3/types.ts";
-import { Denops } from "https://deno.land/x/ddu_vim@v3.10.3/deps.ts";
+  Denops,
+} from "../ddu-source-gh_project/deps.ts";
 import { KindActionData as ActionData } from "../ddu-source-gh_project/type/project.ts";
 
 type Params = Record<never, never>;
