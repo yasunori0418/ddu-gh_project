@@ -17,7 +17,7 @@ function! ddu_source_gh_project#open_buffer(bufnr, split_kind)
   endif
 endfunction
 
-function! ddu_source_gh_project#send(bufnr)
+function! ddu_source_gh_project#edit(bufnr)
   const l:burlines = getbufline(a:bufnr, 1, '$')
   call denops#notify('ddu-source-gh_project', 'send', [l:burlines])
   execute $'bdelete{a:bufnr}'

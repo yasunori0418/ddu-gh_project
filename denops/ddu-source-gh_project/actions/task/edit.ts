@@ -64,7 +64,7 @@ export async function edit(
   ) as BufInfo;
   await fn.appendbufline(denops, bufname, 0, createTomlData(action));
 
-  defineAutocmd(denops, bufnr, `call ddu_source_gh_project#send(${bufnr})`);
+  defineAutocmd(denops, bufnr, `call ddu_source_gh_project#edit(${bufnr})`);
 
   denops.call(
     "ddu_source_gh_project#open_buffer",
