@@ -3,7 +3,7 @@ import { isTaskEdit } from "./type/task.ts";
 
 export function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
-    async send(buflines: unknown): Promise<void> {
+    async edit(buflines: unknown): Promise<void> {
       const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
       const taskData = ensure(tomlParse(tomlString), isTaskEdit);
       const editBaseArgs: string[] = [
