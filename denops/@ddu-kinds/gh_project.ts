@@ -3,9 +3,9 @@ import {
   ActionFlags,
   BaseKind,
   DduItem,
+  Denops,
   PreviewContext,
   Previewer,
-  Denops,
 } from "../ddu-source-gh_project/deps.ts";
 import { KindActionData as ActionData } from "../ddu-source-gh_project/type/project.ts";
 

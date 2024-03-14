@@ -4,7 +4,7 @@ import {
   autocmd,
   Denops,
   fn,
-  tomlStringify
+  tomlStringify,
 } from "../../deps.ts";
 import { KindParams as Params } from "../../type/common.ts";
 import {

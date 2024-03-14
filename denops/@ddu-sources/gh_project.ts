@@ -1,10 +1,10 @@
 import {
   BaseSource,
-  // DduOptions,
-  Item,
   // SourceOptions,
   GatherArguments,
-  JSONLinesParseStream
+  // DduOptions,
+  Item,
+  JSONLinesParseStream,
 } from "../ddu-source-gh_project/deps.ts";
 import {
   GHProject,

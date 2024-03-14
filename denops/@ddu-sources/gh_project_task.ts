@@ -1,10 +1,10 @@
 import {
   BaseSource,
-  // DduOptions,
-  Item,
   // SourceOptions,
   GatherArguments,
-  JSONLinesParseStream
+  // DduOptions,
+  Item,
+  JSONLinesParseStream,
 } from "../ddu-source-gh_project/deps.ts";
 import {
   GHProjectTask,
@@ -49,7 +49,9 @@ function parseSourceItems(
   };
 }
 
-async function getProjectTaskFields(sourceParams: Params): Promise<GHProjectTaskField[]> {
+async function getProjectTaskFields(
+  sourceParams: Params,
+): Promise<GHProjectTaskField[]> {
   const projectNumber = sourceParams.projectNumber;
   if (!projectNumber) throw "required projectNumber";
   const projectId = sourceParams.projectId;
