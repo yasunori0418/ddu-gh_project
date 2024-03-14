@@ -1,4 +1,5 @@
-import { autocmd, Denops } from "./deps.ts";
+import { autocmd, Denops, fn } from "./deps.ts";
+import { BufInfo } from "./type/task.ts";
 
 /**
  * Type functions that override certain properties
@@ -41,4 +42,25 @@ export function defineAutocmd(
   autocmd.define(denops, "QuitPre", `<buffer=${bufnr}>`, ctx, {
     once: true,
   });
+}
+
+/**
+ * call ddu_source_gh_project#create_scratch_buffer
+ */
+export async function createScratchBuffer(
+  denops: Denops,
+  name: string,
+  lines: string[],
+): Promise<BufInfo> {
+  const bufInfo = await denops.call(
+    "ddu_source_gh_project#create_scratch_buffer",
+    name,
+  ) as BufInfo;
+  await fn.appendbufline(
+    denops,
+    bufInfo.bufname,
+    0,
+    lines,
+  );
+  return Promise.resolve(bufInfo);
 }
