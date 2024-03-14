@@ -1,13 +1,11 @@
 import {
   ActionArguments,
   ActionFlags,
-} from "https://deno.land/x/ddu_vim@v3.10.3/types.ts";
-import {
   autocmd,
   Denops,
   fn,
-} from "https://deno.land/x/ddu_vim@v3.10.3/deps.ts";
-import { stringify as tomlStringify } from "https://deno.land/std@0.219.1/toml/mod.ts";
+  tomlStringify
+} from "../../deps.ts";
 import { KindParams as Params } from "../../type/common.ts";
 import {
   BufInfo,
