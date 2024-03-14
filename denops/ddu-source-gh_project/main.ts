@@ -69,6 +69,8 @@ export function main(denops: Denops): Promise<void> {
       }
       return await Promise.resolve();
     },
+    // async create(buflines: unknown): Promise<void> {
+    // },
   };
 
   return Promise.resolve();
