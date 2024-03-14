@@ -1,12 +1,7 @@
-import { ActionArguments, ActionFlags, fn, tomlStringify } from "../../deps.ts";
+import { ActionArguments, ActionFlags, tomlStringify } from "../../deps.ts";
 import { KindParams as Params } from "../../type/common.ts";
-import { defineAutocmd } from "../../utils.ts";
-import {
-  ActionData,
-  BufInfo,
-  SourceParams,
-  TaskField,
-} from "../../type/task.ts";
+import { createScratchBuffer, defineAutocmd } from "../../utils.ts";
+import { ActionData, SourceParams, TaskField } from "../../type/task.ts";
 
 // gh project item-create 4 --owner @me --title "test item" --body "test item body" --format json
 
@@ -57,14 +52,9 @@ export async function create(
   const denops = args.denops;
   const sourceParams = args.sourceParams as SourceParams;
   const action = args.items[0].action as ActionData;
-  const { bufnr, bufname } = await denops.call(
-    "ddu_source_gh_project#create_scratch_buffer",
-    action.taskId,
-  ) as BufInfo;
-  await fn.appendbufline(
+  const { bufnr } = await createScratchBuffer(
     denops,
-    bufname,
-    0,
+    "create_new_task",
     createTomlData(action, sourceParams.owner),
   );
 

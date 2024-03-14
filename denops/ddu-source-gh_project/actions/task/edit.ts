@@ -1,12 +1,7 @@
-import {
-  ActionArguments,
-  ActionFlags,
-  fn,
-  tomlStringify,
-} from "../../deps.ts";
+import { ActionArguments, ActionFlags, tomlStringify } from "../../deps.ts";
 import { KindParams as Params } from "../../type/common.ts";
-import { defineAutocmd } from "../../utils.ts";
-import { ActionData, BufInfo, TaskEdit, TaskField } from "../../type/task.ts";
+import { createScratchBuffer, defineAutocmd } from "../../utils.ts";
+import { ActionData, TaskEdit, TaskField } from "../../type/task.ts";
 
 function createTomlData(action: ActionData): string[] {
   const task: TaskEdit = {
@@ -58,11 +53,11 @@ export async function edit(
 ): Promise<ActionFlags> {
   const denops = args.denops;
   const action = args.items[0].action as ActionData;
-  const { bufnr, bufname } = await denops.call(
-    "ddu_source_gh_project#create_scratch_buffer",
+  const { bufnr } = await createScratchBuffer(
+    denops,
     action.taskId,
-  ) as BufInfo;
-  await fn.appendbufline(denops, bufname, 0, createTomlData(action));
+    createTomlData(action),
+  );
 
   defineAutocmd(denops, bufnr, `call ddu_source_gh_project#edit(${bufnr})`);
 
