@@ -1,3 +1,5 @@
+import { autocmd, Denops } from "./deps.ts";
+
 /**
  * Type functions that override certain properties
  * Reference: https://qiita.com/ibaragi/items/2a6412aeaca5703694b1
@@ -29,4 +31,14 @@ export function cmd(
       await stdout.cancel();
     },
   };
+}
+
+export function defineAutocmd(
+  denops: Denops,
+  bufnr: number,
+  ctx: string,
+) {
+  autocmd.define(denops, "QuitPre", `<buffer=${bufnr}>`, ctx, {
+    once: true,
+  });
 }

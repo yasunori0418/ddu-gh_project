@@ -1,23 +1,12 @@
 import {
   ActionArguments,
   ActionFlags,
-  autocmd,
-  Denops,
   fn,
   tomlStringify,
 } from "../../deps.ts";
 import { KindParams as Params } from "../../type/common.ts";
+import { defineAutocmd } from "../../utils.ts";
 import { ActionData, BufInfo, TaskEdit, TaskField } from "../../type/task.ts";
-
-function defineAutocmd(
-  denops: Denops,
-  bufnr: number,
-  ctx: string,
-) {
-  autocmd.define(denops, "QuitPre", `<buffer=${bufnr}>`, ctx, {
-    once: true,
-  });
-}
 
 function createTomlData(action: ActionData): string[] {
   const task: TaskEdit = {
