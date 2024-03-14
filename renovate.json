@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "config:base",
+    "github>Omochice/renovate-config:deno"
+  ],
+  "timezone": "Asia/Tokyo",
+  "dependencyDashboard": false,
+  "automerge": true,
+  "branchConcurrentLimit": 0
+}
