@@ -50,3 +50,31 @@ function createTomlData(action: ActionData, owner: string): string[] {
 
   return tomlStringify(task).split(/\n/);
 }
+
+export async function create(
+  args: ActionArguments<Params>,
+): Promise<ActionFlags> {
+  const denops = args.denops;
+  const sourceParams = args.sourceParams as SourceParams;
+  const action = args.items[0].action as ActionData;
+  const { bufnr, bufname } = await denops.call(
+    "ddu_source_gh_project#create_scratch_buffer",
+    action.taskId,
+  ) as BufInfo;
+  await fn.appendbufline(
+    denops,
+    bufname,
+    0,
+    createTomlData(action, sourceParams.owner),
+  );
+
+  // defineAutocmd(denops, bufnr, `call ddu_source_gh_project#send(${bufnr})`);
+
+  denops.call(
+    "ddu_source_gh_project#open_buffer",
+    bufnr,
+    "horizontal",
+  ) as Promise<void>;
+
+  return Promise.resolve(ActionFlags.None);
+}
