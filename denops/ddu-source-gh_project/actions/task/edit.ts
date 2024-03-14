@@ -59,7 +59,7 @@ export async function edit(
     createTomlData(action),
   );
 
-  defineAutocmd(denops, bufnr, `call ddu_source_gh_project#edit(${bufnr})`);
+  defineAutocmd(denops, bufnr, `call ddu_source_gh_project#send(${bufnr}, "edit")`);
 
   denops.call(
     "ddu_source_gh_project#open_buffer",
