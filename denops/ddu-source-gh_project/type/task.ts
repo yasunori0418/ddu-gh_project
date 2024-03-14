@@ -57,6 +57,14 @@ export type TaskCreate = {
   taskFields: TaskField[];
 };
 
+export const isTaskCreate = is.ObjectOf({
+  title: is.String,
+  body: is.ArrayOf(is.String),
+  owner: is.String,
+  projectNumber: is.Number,
+  taskFields: is.ArrayOf(isTaskField),
+})
+
 export type ActionData = {
   projectId: string;
   projectNumber: number;
