@@ -1,4 +1,4 @@
-import { is } from "https://deno.land/x/unknownutil@v3.17.0/mod.ts";
+import { is } from "../deps.ts";
 
 export type TaskFieldOption = {
   id: string;
