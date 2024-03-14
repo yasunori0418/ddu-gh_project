@@ -1,5 +1,5 @@
 import { Denops, ensure, is, tomlParse } from "./deps.ts";
-import { isTaskEdit } from "./type/task.ts";
+import { isTaskEdit, isTaskCreate } from "./type/task.ts";
 
 export function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
@@ -69,8 +69,12 @@ export function main(denops: Denops): Promise<void> {
       }
       return await Promise.resolve();
     },
-    // async create(buflines: unknown): Promise<void> {
-    // },
+    async create(buflines: unknown): Promise<void> {
+      const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
+      const taskData = ensure(tomlParse(tomlString), isTaskCreate);
+      console.log(taskData);
+      return await Promise.resolve();
+    },
   };
 
   return Promise.resolve();

@@ -50,7 +50,7 @@ export async function create(
     createTomlData(action, sourceParams.owner),
   );
 
-  // defineAutocmd(denops, bufnr, `call ddu_source_gh_project#send(${bufnr}, "create")`);
+  defineAutocmd(denops, bufnr, `call ddu_source_gh_project#send(${bufnr}, "create")`);
 
   denops.call(
     "ddu_source_gh_project#open_buffer",
