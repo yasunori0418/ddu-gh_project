@@ -9,7 +9,7 @@ import {
 import { KindParams as Params } from "../../type/common.ts";
 import {
   BufInfo,
-  KindActionData as ActionData,
+  ActionData,
   TaskEdit,
   TaskField,
 } from "../../type/task.ts";

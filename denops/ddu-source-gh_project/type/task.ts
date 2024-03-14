@@ -49,7 +49,7 @@ export const isTaskEdit = is.ObjectOf({
   taskFields: is.ArrayOf(isTaskField),
 });
 
-export type KindActionData = {
+export type ActionData = {
   projectId: string;
   projectNumber: number;
   taskId: string;

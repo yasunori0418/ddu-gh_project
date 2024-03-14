@@ -9,7 +9,7 @@ import {
 import {
   GHProjectTask,
   GHProjectTaskField,
-  KindActionData as ActionData,
+  ActionData,
   SourceParams as Params,
 } from "../ddu-source-gh_project/type/task.ts";
 
