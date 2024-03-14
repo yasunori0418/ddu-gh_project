@@ -1,7 +1,7 @@
 import {
   ActionArguments,
   ActionFlags,
-} from "https://deno.land/x/ddu_vim@v3.10.3/types.ts";
+} from "../../deps.ts";
 import { KindParams as Params } from "../../type/common.ts";
 import { KindActionData as ActionData } from "../../type/task.ts";
 
