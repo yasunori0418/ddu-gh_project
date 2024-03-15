@@ -123,6 +123,16 @@ export type GHProjectTaskSingleSelectField = {
 };
 
 /**
+ * This is the json type that can be obtained by executing the `gh project item-create --foramt json` command.
+ */
+export type GHProjectTaskCreateResponse = {
+  id: string;
+  title: string;
+  body: string;
+  type: "DraftIssue";
+}
+
+/**
  * autoload/ddu_source_gh_project#create_scratch_buffer
  * Return value type of buffer creation function
  */
