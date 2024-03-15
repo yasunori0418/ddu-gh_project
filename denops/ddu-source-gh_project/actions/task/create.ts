@@ -3,8 +3,6 @@ import { KindParams as Params } from "../../type/common.ts";
 import { createScratchBuffer, defineAutocmd } from "../../utils.ts";
 import { ActionData, SourceParams, TaskField, TaskCreate } from "../../type/task.ts";
 
-// gh project item-create 4 --owner @me --title "test item" --body "test item body" --format json
-
 function createTomlData(action: ActionData, owner: string): string[] {
   const task: TaskCreate = {
     title: "",
