@@ -8,6 +8,7 @@ function createTomlData(action: ActionData, owner: string): string[] {
     title: "",
     body: [],
     projectNumber: action.projectNumber,
+    projectId: action.projectId,
     owner: owner,
     taskFields: [],
   };

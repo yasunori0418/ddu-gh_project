@@ -54,6 +54,7 @@ export type TaskCreate = {
   body: string[];
   owner: string;
   projectNumber: number;
+  projectId: string;
   taskFields: TaskField[];
 };
 
@@ -62,6 +63,7 @@ export const isTaskCreate = is.ObjectOf({
   body: is.ArrayOf(is.String),
   owner: is.String,
   projectNumber: is.Number,
+  projectId: is.String,
   taskFields: is.ArrayOf(isTaskField),
 })
 
