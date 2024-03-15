@@ -27,4 +27,4 @@ export { JSONLinesParseStream } from "https://deno.land/x/jsonlines@v1.2.2/mod.t
 export {
   parse as tomlParse,
   stringify as tomlStringify,
-} from "https://deno.land/std@0.219.1/toml/mod.ts";
+} from "https://deno.land/std@0.220.1/toml/mod.ts";
