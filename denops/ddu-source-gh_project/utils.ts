@@ -1,3 +1,6 @@
+import { autocmd, Denops, fn } from "./deps.ts";
+import { BufInfo } from "./type/task.ts";
+
 /**
  * Type functions that override certain properties
  * Reference: https://qiita.com/ibaragi/items/2a6412aeaca5703694b1
@@ -29,4 +32,35 @@ export function cmd(
       await stdout.cancel();
     },
   };
+}
+
+export function defineAutocmd(
+  denops: Denops,
+  bufnr: number,
+  ctx: string,
+) {
+  autocmd.define(denops, "QuitPre", `<buffer=${bufnr}>`, ctx, {
+    once: true,
+  });
+}
+
+/**
+ * call ddu_source_gh_project#create_scratch_buffer
+ */
+export async function createScratchBuffer(
+  denops: Denops,
+  name: string,
+  lines: string[],
+): Promise<BufInfo> {
+  const bufInfo = await denops.call(
+    "ddu_source_gh_project#create_scratch_buffer",
+    name,
+  ) as BufInfo;
+  await fn.appendbufline(
+    denops,
+    bufInfo.bufname,
+    0,
+    lines,
+  );
+  return Promise.resolve(bufInfo);
 }

@@ -49,6 +49,24 @@ export const isTaskEdit = is.ObjectOf({
   taskFields: is.ArrayOf(isTaskField),
 });
 
+export type TaskCreate = {
+  title: string;
+  body: string[];
+  owner: string;
+  projectNumber: number;
+  projectId: string;
+  taskFields: TaskField[];
+};
+
+export const isTaskCreate = is.ObjectOf({
+  title: is.String,
+  body: is.ArrayOf(is.String),
+  owner: is.String,
+  projectNumber: is.Number,
+  projectId: is.String,
+  taskFields: is.ArrayOf(isTaskField),
+})
+
 export type ActionData = {
   projectId: string;
   projectNumber: number;
@@ -105,6 +123,16 @@ export type GHProjectTaskSingleSelectField = {
   id: string;
   name: string;
 };
+
+/**
+ * This is the json type that can be obtained by executing the `gh project item-create --foramt json` command.
+ */
+export type GHProjectTaskCreateResponse = {
+  id: string;
+  title: string;
+  body: string;
+  type: "DraftIssue";
+}
 
 /**
  * autoload/ddu_source_gh_project#create_scratch_buffer
