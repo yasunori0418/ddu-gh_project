@@ -1,4 +1,10 @@
-import { Denops, ensure, is, JSONLinesParseStream, tomlParse } from "./deps.ts";
+import {
+  Denops,
+  ensure,
+  is,
+  JSONLinesParseStream,
+  tomlParse,
+} from "./deps.ts";
 import {
   GHProjectTaskCreateResponse,
   isTaskCreate,
