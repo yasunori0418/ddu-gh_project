@@ -52,13 +52,18 @@ export async function create(
     createTomlData(action),
   );
 
-  defineAutocmd(denops, bufnr, `call ddu_source_gh_project#send(${bufnr}, "create")`);
+  defineAutocmd(
+    denops,
+    bufnr,
+    `call ddu_source_gh_project#send(${bufnr}, "create")`,
+  );
 
   denops.call(
     "ddu_source_gh_project#open_buffer",
     bufnr,
-    "horizontal",
+    args.kindParams.split,
   ) as Promise<void>;
 
-  return Promise.resolve(ActionFlags.None);
+  return await Promise.resolve(ActionFlags.None);
 }
+
