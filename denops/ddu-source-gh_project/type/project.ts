@@ -14,7 +14,6 @@ export type KindActionData = {
 };
 
 export type SourceParams = {
-  cmd: string;
   owner: string;
   limit: number;
 };

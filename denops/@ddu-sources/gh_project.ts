@@ -11,6 +11,7 @@ import {
   KindActionData as ActionData,
   SourceParams as Params,
 } from "../ddu-source-gh_project/type/project.ts";
+import { getGHCmd } from "../ddu-source-gh_project/utils.ts";
 
 function parseGHProjectAction(project: GHProject): ActionData {
   const {
@@ -57,11 +58,12 @@ export class Source extends BaseSource<Params> {
   override kind = "gh_project";
 
   override gather(
-    { sourceParams }: GatherArguments<Params>,
+    { denops, sourceParams }: GatherArguments<Params>,
   ): ReadableStream<Item<ActionData>[]> {
     return new ReadableStream({
       async start(controller) {
-        const { stdout } = new Deno.Command(sourceParams.cmd, {
+        const gh_cmd = await getGHCmd(denops);
+        const { stdout } = new Deno.Command(gh_cmd, {
           args: [
             "project",
             "list",
@@ -98,7 +100,6 @@ export class Source extends BaseSource<Params> {
 
   override params(): Params {
     return {
-      cmd: "gh",
       owner: "@me",
       limit: 0,
     };
