@@ -9,12 +9,10 @@ import {
 } from "../ddu-source-gh_project/deps.ts";
 import { KindParams as Params } from "../ddu-source-gh_project/type/task.ts";
 import { edit } from "../ddu-source-gh_project/actions/task/edit.ts";
-import { echo } from "../ddu-source-gh_project/actions/task/echo.ts";
 import { create } from "../ddu-source-gh_project/actions/task/create.ts";
 
 const actions: Actions<Params> = {
   edit,
-  echo,
   create,
 };
 
