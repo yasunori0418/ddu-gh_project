@@ -4,6 +4,7 @@ import {
   is,
   JSONLinesParseStream,
   tomlParse,
+  vars,
 } from "./deps.ts";
 import {
   GHProjectTaskCreateResponse,
@@ -13,7 +14,8 @@ import {
   TaskFieldOption,
 } from "./type/task.ts";
 
-export function main(denops: Denops): Promise<void> {
+export async function main(denops: Denops): Promise<void> {
+  const gh_cmd = await vars.g.get(denops, "ddu_source_gh_project_gh_cmd") as string;
   denops.dispatcher = {
     async edit(buflines: unknown): Promise<void> {
       const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
@@ -25,7 +27,7 @@ export function main(denops: Denops): Promise<void> {
         taskData.taskId,
       ];
       if (taskData.taskType === "DraftIssue") {
-        new Deno.Command("gh", {
+        new Deno.Command(gh_cmd, {
           args: [
             ...editBaseArgs,
             "--title",
@@ -46,7 +48,7 @@ export function main(denops: Denops): Promise<void> {
           field.id,
         ];
         if (field.text) {
-          new Deno.Command("gh", {
+          new Deno.Command(gh_cmd, {
             args: [
               ...editBaseArgs,
               ...editFieldArgs,
@@ -64,7 +66,7 @@ export function main(denops: Denops): Promise<void> {
               option.currentStatusFlag
             );
             if (currentStatus) {
-              new Deno.Command("gh", {
+              new Deno.Command(gh_cmd, {
                 args: [
                   ...editBaseArgs,
                   ...editFieldArgs,
@@ -84,7 +86,7 @@ export function main(denops: Denops): Promise<void> {
     async create(buflines: unknown): Promise<void> {
       const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
       const taskData = ensure(tomlParse(tomlString), isTaskCreate);
-      const { stdout } = new Deno.Command("gh", {
+      const { stdout } = new Deno.Command(gh_cmd, {
         args: [
           "project",
           "item-create",

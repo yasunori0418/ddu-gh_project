@@ -18,6 +18,7 @@ export {
   autocmd,
   type Denops,
   fn,
+  vars,
 } from "https://deno.land/x/ddu_vim@v3.10.3/deps.ts";
 
 export { ensure, is } from "https://deno.land/x/unknownutil@v3.17.0/mod.ts";
