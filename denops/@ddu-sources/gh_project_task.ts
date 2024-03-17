@@ -25,6 +25,7 @@ function parseActionData(
   const draftIssueID = task.content.id ?? "";
 
   return {
+    owner: sourceParams.owner,
     projectId: projectId,
     taskId: task.id,
     draftIssueID: draftIssueID,

@@ -68,6 +68,7 @@ export const isTaskCreate = is.ObjectOf({
 })
 
 export type ActionData = {
+  owner: string;
   projectId: string;
   projectNumber: number;
   taskId: string;
