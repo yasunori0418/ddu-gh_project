@@ -153,7 +153,7 @@ export class Source extends BaseSource<Params> {
 
         const taskFields = await getProjectTaskFields(sourceParams, ghCmd);
         const taskItems = await getTaskItems(sourceParams, taskFields, ghCmd);
-        controller.enqueue(taskItems);
+        controller.enqueue(taskItems.reverse());
         controller.close();
       },
     });
