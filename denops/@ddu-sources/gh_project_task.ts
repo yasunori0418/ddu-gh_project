@@ -7,9 +7,9 @@ import {
   JSONLinesParseStream,
 } from "../ddu-source-gh_project/deps.ts";
 import {
+  ActionData,
   GHProjectTask,
   GHProjectTaskField,
-  ActionData,
   SourceParams as Params,
 } from "../ddu-source-gh_project/type/task.ts";
 
@@ -138,6 +138,7 @@ export class Source extends BaseSource<Params> {
           ).finally(async () => {
             await stdout.cancel();
           });
+        controller.close();
       },
     });
   }
