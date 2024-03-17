@@ -1,4 +1,4 @@
-import { autocmd, Denops, fn } from "./deps.ts";
+import { autocmd, Denops, fn, vars } from "./deps.ts";
 import { BufInfo } from "./type/task.ts";
 
 /**
@@ -63,4 +63,10 @@ export async function createScratchBuffer(
     lines,
   );
   return Promise.resolve(bufInfo);
+}
+
+export async function getGHCmd(denops: Denops): Promise<string> {
+  return Promise.resolve(
+    await vars.g.get(denops, "ddu_source_gh_project_gh_cmd") as string,
+  );
 }
