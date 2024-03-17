@@ -53,14 +53,14 @@ function parseSourceItems(
 
 async function getProjectTaskFields(
   sourceParams: Params,
-  gh_cmd: string,
+  ghCmd: string,
 ): Promise<GHProjectTaskField[]> {
   const projectNumber = sourceParams.projectNumber;
   if (!projectNumber) throw "required projectNumber";
   const projectId = sourceParams.projectId;
   if (!projectId) throw "required projectId";
 
-  const { stdout } = new Deno.Command(gh_cmd, {
+  const { stdout } = new Deno.Command(ghCmd, {
     args: [
       "project",
       "field-list",
@@ -105,10 +105,10 @@ export class Source extends BaseSource<Params> {
       async start(controller) {
         const projectNumber = sourceParams.projectNumber;
         if (!projectNumber) throw "required projectNumber";
-        const gh_cmd = await getGHCmd(denops);
+        const ghCmd = await getGHCmd(denops);
 
-        const taskFields = await getProjectTaskFields(sourceParams, gh_cmd);
-        const { stdout } = new Deno.Command(gh_cmd, {
+        const taskFields = await getProjectTaskFields(sourceParams, ghCmd);
+        const { stdout } = new Deno.Command(ghCmd, {
           args: [
             "project",
             "item-list",

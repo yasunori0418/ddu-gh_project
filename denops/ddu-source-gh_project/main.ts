@@ -9,7 +9,7 @@ import {
 import { getGHCmd } from "./utils.ts";
 
 export async function main(denops: Denops): Promise<void> {
-  const gh_cmd = await getGHCmd(denops);
+  const ghCmd = await getGHCmd(denops);
   denops.dispatcher = {
     async edit(buflines: unknown): Promise<void> {
       const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
@@ -21,7 +21,7 @@ export async function main(denops: Denops): Promise<void> {
         taskData.taskId,
       ];
       if (taskData.taskType === "DraftIssue") {
-        new Deno.Command(gh_cmd, {
+        new Deno.Command(ghCmd, {
           args: [
             ...editBaseArgs,
             "--title",
@@ -42,7 +42,7 @@ export async function main(denops: Denops): Promise<void> {
           field.id,
         ];
         if (field.text) {
-          new Deno.Command(gh_cmd, {
+          new Deno.Command(ghCmd, {
             args: [
               ...editBaseArgs,
               ...editFieldArgs,
@@ -60,7 +60,7 @@ export async function main(denops: Denops): Promise<void> {
               option.currentStatusFlag
             );
             if (currentStatus) {
-              new Deno.Command(gh_cmd, {
+              new Deno.Command(ghCmd, {
                 args: [
                   ...editBaseArgs,
                   ...editFieldArgs,
@@ -80,7 +80,7 @@ export async function main(denops: Denops): Promise<void> {
     async create(buflines: unknown): Promise<void> {
       const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
       const taskData = ensure(tomlParse(tomlString), isTaskCreate);
-      const { stdout } = new Deno.Command(gh_cmd, {
+      const { stdout } = new Deno.Command(ghCmd, {
         args: [
           "project",
           "item-create",

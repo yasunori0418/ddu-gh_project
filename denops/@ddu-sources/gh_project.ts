@@ -62,8 +62,8 @@ export class Source extends BaseSource<Params> {
   ): ReadableStream<Item<ActionData>[]> {
     return new ReadableStream({
       async start(controller) {
-        const gh_cmd = await getGHCmd(denops);
-        const { stdout } = new Deno.Command(gh_cmd, {
+        const ghCmd = await getGHCmd(denops);
+        const { stdout } = new Deno.Command(ghCmd, {
           args: [
             "project",
             "list",
