@@ -81,7 +81,6 @@ export type ActionData = {
 };
 
 export type SourceParams = {
-  cmd: string;
   owner: string;
   limit: number;
   projectId?: string;

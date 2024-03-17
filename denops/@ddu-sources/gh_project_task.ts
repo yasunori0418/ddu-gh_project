@@ -12,6 +12,7 @@ import {
   GHProjectTaskField,
   SourceParams as Params,
 } from "../ddu-source-gh_project/type/task.ts";
+import { getGHCmd } from "../ddu-source-gh_project/utils.ts";
 
 function parseActionData(
   task: GHProjectTask,
@@ -52,13 +53,14 @@ function parseSourceItems(
 
 async function getProjectTaskFields(
   sourceParams: Params,
+  gh_cmd: string,
 ): Promise<GHProjectTaskField[]> {
   const projectNumber = sourceParams.projectNumber;
   if (!projectNumber) throw "required projectNumber";
   const projectId = sourceParams.projectId;
   if (!projectId) throw "required projectId";
 
-  const { stdout } = new Deno.Command(sourceParams.cmd, {
+  const { stdout } = new Deno.Command(gh_cmd, {
     args: [
       "project",
       "field-list",
@@ -97,15 +99,16 @@ export class Source extends BaseSource<Params> {
   override kind = "gh_project_task";
 
   override gather(
-    { sourceParams }: GatherArguments<Params>,
+    { denops, sourceParams }: GatherArguments<Params>,
   ): ReadableStream<Item<ActionData>[]> {
     return new ReadableStream({
       async start(controller) {
         const projectNumber = sourceParams.projectNumber;
         if (!projectNumber) throw "required projectNumber";
+        const gh_cmd = await getGHCmd(denops);
 
-        const taskFields = await getProjectTaskFields(sourceParams);
-        const { stdout } = new Deno.Command(sourceParams.cmd, {
+        const taskFields = await getProjectTaskFields(sourceParams, gh_cmd);
+        const { stdout } = new Deno.Command(gh_cmd, {
           args: [
             "project",
             "item-list",
@@ -145,7 +148,6 @@ export class Source extends BaseSource<Params> {
 
   override params(): Params {
     return {
-      cmd: "gh",
       owner: "@me",
       limit: 1000,
     };
