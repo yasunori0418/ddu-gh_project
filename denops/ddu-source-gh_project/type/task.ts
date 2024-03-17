@@ -88,6 +88,10 @@ export type SourceParams = {
   projectNumber?: number;
 };
 
+export type KindParams = {
+  split: "horizontal" | "vertical" | "tab";
+}
+
 /**
  * Type of each task which can be obtained by `gh project item-list --format json`
  */

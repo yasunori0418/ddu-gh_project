@@ -7,7 +7,7 @@ import {
   // PreviewContext,
   // Previewer,
 } from "../ddu-source-gh_project/deps.ts";
-import { KindParams as Params } from "../ddu-source-gh_project/type/common.ts";
+import { KindParams as Params } from "../ddu-source-gh_project/type/task.ts";
 import { edit } from "../ddu-source-gh_project/actions/task/edit.ts";
 import { echo } from "../ddu-source-gh_project/actions/task/echo.ts";
 import { create } from "../ddu-source-gh_project/actions/task/create.ts";
@@ -39,6 +39,8 @@ export class Kind extends BaseKind<Params> {
   // }
 
   override params(): Params {
-    return {};
+    return {
+      split: "horizontal",
+    };
   }
 }
