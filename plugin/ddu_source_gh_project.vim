@@ -7,4 +7,4 @@ if exists('g:ddu_source_gh_project')
 endif
 let g:ddu_source_gh_project = 1
 
-let g:gh_cmd = 'gh'
+let g:ddu_source_gh_project_gh_cmd = 'gh'
