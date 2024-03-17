@@ -95,6 +95,50 @@ async function getProjectTaskFields(
   return taskFields;
 }
 
+async function getTaskItems(
+  sourceParams: Params,
+  taskFields: GHProjectTaskField[],
+  ghCmd: string,
+): Promise<Item<ActionData>[]> {
+  const projectNumber = sourceParams.projectNumber;
+  if (!projectNumber) throw "required projectNumber";
+
+  const { stdout } = new Deno.Command(ghCmd, {
+    args: [
+      "project",
+      "item-list",
+      projectNumber.toString(),
+      "--owner",
+      sourceParams.owner,
+      "--limit",
+      sourceParams.limit.toString(),
+      "--format",
+      "json",
+    ],
+    stdin: "null",
+    stderr: "null",
+    stdout: "piped",
+  }).spawn();
+
+  const taskItems: Item<ActionData>[] = [];
+  await stdout
+    .pipeThrough(new TextDecoderStream())
+    .pipeThrough(new JSONLinesParseStream())
+    .pipeTo(
+      new WritableStream<{ items: GHProjectTask[] }>({
+        write(task: { items: GHProjectTask[] }) {
+          for (const item of task.items) {
+            taskItems.push(parseSourceItems(item, taskFields, sourceParams));
+          }
+        },
+      }),
+    ).finally(async () => {
+      await stdout.cancel();
+    });
+
+  return taskItems;
+}
+
 export class Source extends BaseSource<Params> {
   override kind = "gh_project_task";
 
@@ -108,39 +152,8 @@ export class Source extends BaseSource<Params> {
         const ghCmd = await getGHCmd(denops);
 
         const taskFields = await getProjectTaskFields(sourceParams, ghCmd);
-        const { stdout } = new Deno.Command(ghCmd, {
-          args: [
-            "project",
-            "item-list",
-            projectNumber.toString(),
-            "--owner",
-            sourceParams.owner,
-            "--limit",
-            sourceParams.limit.toString(),
-            "--format",
-            "json",
-          ],
-          stdin: "null",
-          stderr: "null",
-          stdout: "piped",
-        }).spawn();
-
-        await stdout
-          .pipeThrough(new TextDecoderStream())
-          .pipeThrough(new JSONLinesParseStream())
-          .pipeTo(
-            new WritableStream<{ items: GHProjectTask[] }>({
-              write(task: { items: GHProjectTask[] }) {
-                controller.enqueue(
-                  task.items.map((item) =>
-                    parseSourceItems(item, taskFields, sourceParams)
-                  ).reverse(),
-                );
-              },
-            }),
-          ).finally(async () => {
-            await stdout.cancel();
-          });
+        const taskItems = await getTaskItems(sourceParams, taskFields, ghCmd);
+        controller.enqueue(taskItems);
         controller.close();
       },
     });
