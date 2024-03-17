@@ -8,11 +8,13 @@ import { KindParams as Params } from "../ddu-source-gh_project/type/task.ts";
 import { edit } from "../ddu-source-gh_project/actions/task/edit.ts";
 import { create } from "../ddu-source-gh_project/actions/task/create.ts";
 import { deleteItem } from "../ddu-source-gh_project/actions/task/delete_item.ts";
+import { archive } from "../ddu-source-gh_project/actions/task/archive.ts";
 
 const actions: Actions<Params> = {
   edit,
   create,
   deleteItem,
+  archive,
 };
 
 export class Kind extends BaseKind<Params> {
