@@ -1,11 +1,4 @@
-import {
-  Denops,
-  ensure,
-  is,
-  JSONLinesParseStream,
-  tomlParse,
-  vars,
-} from "./deps.ts";
+import { Denops, ensure, is, JSONLinesParseStream, tomlParse } from "./deps.ts";
 import {
   GHProjectTaskCreateResponse,
   isTaskCreate,
@@ -13,9 +6,10 @@ import {
   TaskField,
   TaskFieldOption,
 } from "./type/task.ts";
+import { getGHCmd } from "./utils.ts";
 
 export async function main(denops: Denops): Promise<void> {
-  const gh_cmd = await vars.g.get(denops, "ddu_source_gh_project_gh_cmd") as string;
+  const gh_cmd = await getGHCmd(denops);
   denops.dispatcher = {
     async edit(buflines: unknown): Promise<void> {
       const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
