@@ -5,14 +5,14 @@ import {
   // DduOptions,
   Item,
   JSONLinesParseStream,
-} from "../ddu-source-gh_project/deps.ts";
+} from "../ddu-gh_project/deps.ts";
 import {
   ActionData,
   GHProjectTask,
   GHProjectTaskField,
   SourceParams as Params,
-} from "../ddu-source-gh_project/type/task.ts";
-import { getGHCmd } from "../ddu-source-gh_project/utils.ts";
+} from "../ddu-gh_project/type/task.ts";
+import { getGHCmd } from "../ddu-gh_project/utils.ts";
 
 function parseActionData(
   task: GHProjectTask,

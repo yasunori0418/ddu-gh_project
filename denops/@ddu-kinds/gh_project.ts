@@ -6,8 +6,8 @@ import {
   Denops,
   PreviewContext,
   Previewer,
-} from "../ddu-source-gh_project/deps.ts";
-import { KindActionData as ActionData } from "../ddu-source-gh_project/type/project.ts";
+} from "../ddu-gh_project/deps.ts";
+import { KindActionData as ActionData } from "../ddu-gh_project/type/project.ts";
 
 type Params = Record<never, never>;
 

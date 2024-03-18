@@ -3,12 +3,12 @@ import {
   BaseKind,
   // PreviewContext,
   // Previewer,
-} from "../ddu-source-gh_project/deps.ts";
-import { KindParams as Params } from "../ddu-source-gh_project/type/task.ts";
-import { edit } from "../ddu-source-gh_project/actions/task/edit.ts";
-import { create } from "../ddu-source-gh_project/actions/task/create.ts";
-import { deleteItem } from "../ddu-source-gh_project/actions/task/delete_item.ts";
-import { archive } from "../ddu-source-gh_project/actions/task/archive.ts";
+} from "../ddu-gh_project/deps.ts";
+import { KindParams as Params } from "../ddu-gh_project/type/task.ts";
+import { edit } from "../ddu-gh_project/actions/task/edit.ts";
+import { create } from "../ddu-gh_project/actions/task/create.ts";
+import { deleteItem } from "../ddu-gh_project/actions/task/delete_item.ts";
+import { archive } from "../ddu-gh_project/actions/task/archive.ts";
 
 const actions: Actions<Params> = {
   edit,

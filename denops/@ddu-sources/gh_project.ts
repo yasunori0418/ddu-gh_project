@@ -5,13 +5,13 @@ import {
   // DduOptions,
   Item,
   JSONLinesParseStream,
-} from "../ddu-source-gh_project/deps.ts";
+} from "../ddu-gh_project/deps.ts";
 import {
   GHProject,
   KindActionData as ActionData,
   SourceParams as Params,
-} from "../ddu-source-gh_project/type/project.ts";
-import { getGHCmd } from "../ddu-source-gh_project/utils.ts";
+} from "../ddu-gh_project/type/project.ts";
+import { getGHCmd } from "../ddu-gh_project/utils.ts";
 
 function parseGHProjectAction(project: GHProject): ActionData {
   const {
