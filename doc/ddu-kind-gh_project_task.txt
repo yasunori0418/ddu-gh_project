@@ -1,0 +1,100 @@
+*ddu-kind-gh_project_task.txt*	gh project item-list for ddu.vim
+
+Author: yasunori0418 <yasunori.kirin0418 at gmail.com>
+License: MIT license
+
+CONTENTS				*ddu-kind-gh_project_task-contents*
+
+Introduction		|ddu-kind-gh_project_task-introduction|
+Install			|ddu-kind-gh_project_task-install|
+Examples		|ddu-kind-gh_project_task-examples|
+Actions			|ddu-kind-gh_project_task-actions|
+Params			|ddu-kind-gh_project_task-params|
+FAQ			|ddu-kind-gh_project_task-faq|
+
+
+==============================================================================
+INTRODUCTION				*ddu-kind-gh_project_task-introduction*
+
+This source collects `gh project list`.
+
+NOTE:
+Since it uses unmerged functionality, please causion when using it.
+This plugin requires `draft-issue-id(DI_)` to operate draft-issue.
+refer: https://github.com/cli/cli/pull/8754
+
+
+==============================================================================
+INSTALL					*ddu-kind-gh_project_task-install*
+
+Please install both |ddu|, |denops.vim| and github-cli.
+
+https://github.com/Shougo/ddu.vim
+https://github.com/vim-denops/denops.vim
+https://github.com/cli/cli
+
+
+==============================================================================
+EXAMPLES				*ddu-kind-gh_project_task-examples*
+>vim
+	call ddu#custom#patch_global(#{
+	    \   kindOptions: #{
+	    \     gh_project_task: #{
+	    \       defaultAction: 'create',
+	    \     },
+	    \   }
+	    \ })
+<
+
+==============================================================================
+ACTIONS					*ddu-kind-gh_project_task-actions*
+
+create					*ddu-kind-gh_project_task-action-create*
+	Open |scratch-buffer| for task create.
+	Inside the buffer is toml data for task creation.
+
+	In order to create a task, it is mandatory to enter a value in "title".
+	"body" is an array of strings. One element is one line.
+
+	The initial status when a task is created is controlled by
+	`currentStatusFlag`. By default, `currentStatusFlag` is set to the first
+	status among multiple statuses. Move the `currentStatusFlag` line to the
+	section of the status you want to set.
+
+	NOTE:
+	The `currentStatusFlag` line cannot be set to multiple statuses.
+
+
+edit					*ddu-kind-gh_project_task-action-edit*
+	Open |scratch-buffer| for task edit.
+	Inside the buffer is toml data for task editor.
+	Edit the task in the same way as for the create action.
+
+	NOTE:
+	Edits may not be reflected in some fields depending on the type of task.
+
+
+deleteItem				*ddu-kind-gh_project_task-action-deleteItem*
+	Delete the selected task item.
+
+
+archive					*ddu-kind-gh_project_task-action-archive*
+	Archive the selected task item.
+
+
+
+==============================================================================
+PARAMS					*ddu-kind-gh_project_task-params*
+
+					*ddu-kind-gh_project_task-param-split*
+split		("horizontal" | "vertical" | "tabedit";)
+		Opens the task editing buffer using the specified division method.
+
+		Default: "horizontal"
+
+
+==============================================================================
+FREQUENTLY ASKED QUESTIONS (FAQ)	*ddu-kind-gh_project_task-faq*
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:noet:
