@@ -38,9 +38,12 @@ EXAMPLES				*ddu-source-gh_project_task-examples*
 >vim
 	call ddu#start(#{ sources: [#{ name: 'gh_project_task' }] })
 	
-	" Change base path.
-	call ddu#custom#patch_global('sourceOptions', #{
-	      \   gh_project_task: #{ path: expand("~") },
+	" Must set projectId and projectNumber
+	call ddu#custom#patch_global('sourceParams', #{
+	      \   gh_project_task: #{
+	      \     projectId: "PVT_XXXXXXXXXXXXXXXX",
+	      \     projectNumber: 1,
+	      \   },
 	      \ })
 <
 
