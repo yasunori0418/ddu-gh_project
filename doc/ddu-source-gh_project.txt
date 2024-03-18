@@ -1,0 +1,65 @@
+*ddu-source-gh_project.txt*	gh project item-list for ddu.vim
+
+Author: yasunori0418 <yasunori.kirin0418 at gmail.com>
+License: MIT license
+
+CONTENTS				*ddu-source-gh_project-contents*
+
+Introduction		|ddu-source-gh_project-introduction|
+Install			|ddu-source-gh_project-install|
+Examples		|ddu-source-gh_project-examples|
+Params			|ddu-source-gh_project-params|
+FAQ			|ddu-source-gh_project-faq|
+
+
+==============================================================================
+INTRODUCTION				*ddu-source-gh_project-introduction*
+
+This source collects `gh project list`.
+
+==============================================================================
+INSTALL					*ddu-source-gh_project-install*
+
+Please install both |ddu|, |denops.vim| and github-cli.
+
+https://github.com/Shougo/ddu.vim
+https://github.com/vim-denops/denops.vim
+https://github.com/cli/cli
+
+
+==============================================================================
+EXAMPLES				*ddu-source-gh_project-examples*
+>vim
+	call ddu#start(#{ sources: [#{ name: 'gh_project' }] })
+	
+	" By changing the owner, you can also access team projects.
+	call ddu#custom#patch_global('sourceParams', #{
+	      \   gh_project_task: #{
+	      \     owner: "@me",
+	      \   },
+	      \ })
+<
+
+==============================================================================
+PARAMS					*ddu-source-gh_project-params*
+
+					*ddu-source-gh_project-param-owner*
+owner		(string)
+		`gh project item-list --owner`
+		Login of the owner. Use "@me" for the current user.
+
+		Default: "@me"
+
+					*ddu-source-gh_project-param-limit*
+limit		(number)
+		`gh project item-list --limit`
+		Maximum number of items to fetch.
+
+		Default: 1000
+
+
+==============================================================================
+FREQUENTLY ASKED QUESTIONS (FAQ)	*ddu-source-gh_project-faq*
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:noet:
