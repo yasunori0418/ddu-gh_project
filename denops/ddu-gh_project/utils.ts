@@ -53,7 +53,7 @@ export async function createScratchBuffer(
   lines: string[],
 ): Promise<BufInfo> {
   const bufInfo = await denops.call(
-    "ddu_source_gh_project#create_scratch_buffer",
+    "ddu_gh_project#create_scratch_buffer",
     name,
   ) as BufInfo;
   await fn.appendbufline(
@@ -67,6 +67,6 @@ export async function createScratchBuffer(
 
 export async function getGHCmd(denops: Denops): Promise<string> {
   return Promise.resolve(
-    await vars.g.get(denops, "ddu_source_gh_project_gh_cmd") as string,
+    await vars.g.get(denops, "ddu_gh_project_gh_cmd") as string,
   );
 }

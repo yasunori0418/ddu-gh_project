@@ -55,11 +55,11 @@ export async function create(
   defineAutocmd(
     denops,
     bufnr,
-    `call ddu_source_gh_project#send(${bufnr}, "create")`,
+    `call ddu_gh_project#send(${bufnr}, "create")`,
   );
 
   denops.call(
-    "ddu_source_gh_project#open_buffer",
+    "ddu_gh_project#open_buffer",
     bufnr,
     args.kindParams.split,
   ) as Promise<void>;
