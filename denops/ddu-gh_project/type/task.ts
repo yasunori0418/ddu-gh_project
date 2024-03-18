@@ -88,7 +88,7 @@ export type SourceParams = {
 };
 
 export type KindParams = {
-  split: "horizontal" | "vertical" | "tab";
+  split: "horizontal" | "vertical" | "tabedit";
 }
 
 /**
