@@ -16,7 +16,9 @@ FAQ			|ddu-kind-gh_project_task-faq|
 ==============================================================================
 INTRODUCTION				*ddu-kind-gh_project_task-introduction*
 
-This source collects `gh project list`.
+This kind implements `gh project item-*` operations.
+And, it creates a buffer for task editing and automatically executes a query
+based on the edited content.
 
 NOTE:
 Since it uses unmerged functionality, please causion when using it.
