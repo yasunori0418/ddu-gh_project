@@ -7,6 +7,7 @@ CONTENTS				*ddu-gh_project-contents*
 
 Introduction		|ddu-gh_project-introduction|
 Install			|ddu-gh_project-install|
+Guidance		|ddu-gh_project-guidance|
 Variables		|ddu-gh_project-variables|
 FAQ			|ddu-gh_project-faq|
 
@@ -31,6 +32,23 @@ https://github.com/Shougo/ddu-ui-ff
 https://github.com/vim-denops/denops.vim
 https://github.com/cli/cli
 
+
+==============================================================================
+Guidance				*ddu-gh_project-guidance*
+
+ddu-kinds
+|ddu-kind-gh_project.txt|
+	`gh project *` operations and ui open for ddu.vim
+
+|ddu-kind-gh_project_task.txt|
+	`gh project item-*` operations and ui open for ddu.vim
+
+ddu-sources
+|ddu-source-gh_project.txt|
+	`gh project list` for ddu.vim
+
+|ddu-source-gh_project_task.txt|
+	`gh project item-list` for ddu.vim
 
 ==============================================================================
 VARIABLES				*ddu-gh_project-variables*
