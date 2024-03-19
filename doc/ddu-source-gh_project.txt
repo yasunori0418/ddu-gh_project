@@ -1,4 +1,4 @@
-*ddu-source-gh_project.txt*	gh project item-list for ddu.vim
+*ddu-source-gh_project.txt*	`gh project list` for ddu.vim
 
 Author: yasunori0418 <yasunori.kirin0418 at gmail.com>
 License: MIT license

@@ -1,4 +1,4 @@
-*ddu-kind-gh_project_task.txt*	gh project item-list for ddu.vim
+*ddu-kind-gh_project_task.txt*	`gh project item-*` operations and ui open for ddu.vim
 
 Author: yasunori0418 <yasunori.kirin0418 at gmail.com>
 License: MIT license
