@@ -1,4 +1,4 @@
-*ddu-kind-gh_project_task.txt*	gh project item-list for ddu.vim
+*ddu-kind-gh_project_task.txt*	`gh project item-*` operations and ui open for ddu.vim
 
 Author: yasunori0418 <yasunori.kirin0418 at gmail.com>
 License: MIT license
@@ -32,6 +32,7 @@ INSTALL					*ddu-kind-gh_project_task-install*
 Please install both |ddu|, |denops.vim| and github-cli.
 
 https://github.com/Shougo/ddu.vim
+https://github.com/Shougo/ddu-ui-ff
 https://github.com/vim-denops/denops.vim
 https://github.com/cli/cli
 
