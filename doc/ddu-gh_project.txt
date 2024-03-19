@@ -35,6 +35,10 @@ https://github.com/cli/cli
 ==============================================================================
 VARIABLES				*ddu-gh_project-variables*
 
+*g:ddu_gh_project_gh_cmd*
+	Specify the path to the gh command used by this plugin.
+
+	Default: 'gh'
 
 ==============================================================================
 FREQUENTLY ASKED QUESTIONS (FAQ)	*ddu-gh_project-faq*
