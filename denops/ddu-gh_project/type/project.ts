@@ -1,4 +1,4 @@
-export type KindActionData = {
+export type ActionData = {
   closed: boolean;
   fieldsTotalCount: number;
   id: string;
