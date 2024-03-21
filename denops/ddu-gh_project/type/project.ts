@@ -1,3 +1,5 @@
+import { DduOptions } from "../deps.ts";
+
 export type ActionData = {
   closed: boolean;
   fieldsTotalCount: number;
@@ -16,6 +18,10 @@ export type ActionData = {
 export type SourceParams = {
   owner: string;
   limit: number;
+};
+
+export type KindParams = {
+  dduOptions: DduOptions;
 };
 
 export type GHProject = {
