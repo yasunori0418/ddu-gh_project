@@ -17,10 +17,6 @@ INTRODUCTION				*ddu-gh_project-introduction*
 
 This plugin provides operations related to `gh project` based on |ddu|.
 
-NOTE:
-Since it uses unmerged functionality, please causion when using it.
-This plugin requires `draft-issue-id(DI_)` to operate draft-issue.
-refer: https://github.com/cli/cli/pull/8754
 
 ==============================================================================
 INSTALL					*ddu-gh_project-install*
@@ -30,7 +26,7 @@ Please install both |ddu|, |denops.vim| and github-cli.
 https://github.com/Shougo/ddu.vim
 https://github.com/Shougo/ddu-ui-ff
 https://github.com/vim-denops/denops.vim
-https://github.com/cli/cli
+https://github.com/cli/cli >= v2.46.0
 
 
 ==============================================================================

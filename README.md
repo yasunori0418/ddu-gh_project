@@ -20,10 +20,7 @@ https://github.com/Shougo/ddu-ui-ff
 
 https://github.com/cli/cli
 
-> [!IMPORTANT]
-> Use of explimental feature!
-> Since it uses unmerged functionality, please refer to [this PR](https://github.com/cli/cli/pull/8754) when using it.
-> This plugin requires `draft-issue-id(DI_)` to operate draft-issue.
+Version v2.46.0 or higher is required.
 
 ## Configuration
 
