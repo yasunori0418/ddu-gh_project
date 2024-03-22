@@ -21,7 +21,7 @@ export type SourceParams = {
 };
 
 export type KindParams = {
-  dduOptions: DduOptions;
+  dduOptions?: DduOptions;
 };
 
 export type GHProject = {
