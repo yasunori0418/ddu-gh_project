@@ -37,6 +37,8 @@ export class Kind extends BaseKind<Params> {
   }
 
   override params(): Params {
-    return {};
+    return {
+      limit: 1000,
+    };
   }
 }
