@@ -6,11 +6,8 @@ export async function openTaskList(
   args: ActionArguments<Params>,
 ): Promise<ActionFlags> {
   const action = args.items[0].action as ActionData;
-  // const dduOptions = args.kindParams.dduOptions;
-  // const ghProjectTaskSourceParams = dduOptions?.sourceParams
-  //   .gh_project_task as TaskSourceParams;
   const selectProjectSourceParams: TaskSourceParams = {
-    limit: 1000,
+    limit: args.kindParams.limit,
     owner: action.ownerLogin,
     projectId: action.id,
     projectNumber: action.number,
@@ -18,9 +15,17 @@ export async function openTaskList(
   const option: Partial<DduOptions> = {
     ui: "ff",
     sources: [
-      { name: "gh_project_task", params: selectProjectSourceParams },
+      {
+        name: "gh_project_task",
+        params: selectProjectSourceParams,
+      },
     ],
   };
+  if (args.kindParams.uiFfParams) {
+    option.uiParams = {
+      ff: args.kindParams.uiFfParams,
+    };
+  }
   args.denops.dispatch("ddu", "start", option);
 
   return await Promise.resolve(ActionFlags.None);
