@@ -1,32 +1,23 @@
 import {
-  ActionArguments,
-  ActionFlags,
+  Actions,
   BaseKind,
   DduItem,
   Denops,
   PreviewContext,
   Previewer,
 } from "../ddu-gh_project/deps.ts";
-import { ActionData } from "../ddu-gh_project/type/project.ts";
+import {
+  ActionData,
+  KindParams as Params,
+} from "../ddu-gh_project/type/project.ts";
+import { openTaskList } from "../ddu-gh_project/actions/project/open_task_list.ts";
 
-type Params = Record<never, never>;
+const actions: Actions<Params> = {
+  openTaskList,
+};
 
 export class Kind extends BaseKind<Params> {
-  override actions: Record<
-    string,
-    (args: ActionArguments<Params>) => Promise<ActionFlags>
-  > = {
-    echo: (args: { items: DduItem[] }) => {
-      for (const item of args.items) {
-        const action = item.action as ActionData;
-        console.log(`number: "${action.number}", title: "${action.title}"`);
-      }
-      return Promise.resolve(ActionFlags.None);
-    },
-    // openItemList: (args: { denops: Denops; items: DduItem[] }) => {
-
-    // },
-  };
+  override actions = actions;
 
   override getPreviewer(args: {
     denops: Denops;
