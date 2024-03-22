@@ -1,4 +1,6 @@
-export type KindActionData = {
+import { UiFfParams } from "../deps.ts";
+
+export type ActionData = {
   closed: boolean;
   fieldsTotalCount: number;
   id: string;
@@ -15,6 +17,11 @@ export type KindActionData = {
 
 export type SourceParams = {
   owner: string;
+  limit: number;
+};
+
+export type KindParams = {
+  uiFfParams?: UiFfParams;
   limit: number;
 };
 

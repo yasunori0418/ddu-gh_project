@@ -8,7 +8,7 @@ import {
 } from "../ddu-gh_project/deps.ts";
 import {
   GHProject,
-  KindActionData as ActionData,
+  ActionData,
   SourceParams as Params,
 } from "../ddu-gh_project/type/project.ts";
 import { getGHCmd } from "../ddu-gh_project/utils.ts";
