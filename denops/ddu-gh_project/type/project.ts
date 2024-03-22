@@ -1,4 +1,4 @@
-import { DduOptions } from "../deps.ts";
+import { UiFfParams } from "../deps.ts";
 
 export type ActionData = {
   closed: boolean;
@@ -21,7 +21,8 @@ export type SourceParams = {
 };
 
 export type KindParams = {
-  dduOptions?: DduOptions;
+  uiFfParams?: UiFfParams;
+  limit: number;
 };
 
 export type GHProject = {
