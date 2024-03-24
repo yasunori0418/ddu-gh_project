@@ -3,10 +3,44 @@ import {
   GHProjectTaskCreateResponse,
   isTaskCreate,
   isTaskEdit,
+  TaskCreate,
+  TaskEdit,
   TaskField,
   TaskFieldOption,
 } from "./type/task.ts";
-import { getGHCmd } from "./utils.ts";
+import { cmd, getGHCmd } from "./utils.ts";
+
+/**
+ * update target task status.
+ * @param taskData target task data.
+ */
+async function updateTaskStatus<T extends TaskEdit | TaskCreate>(
+  denops: Denops,
+  taskData: T,
+  taskId: string,
+): Promise<void> {
+  const ghCmd = await getGHCmd(denops);
+  const statusField = taskData.taskFields.find((taskField) =>
+    taskField.name === "Status"
+  ) as TaskField;
+  const currentStatusItem = statusField.options?.find((option) =>
+    option.currentStatusFlag
+  ) as TaskFieldOption;
+  await cmd(denops, ghCmd, {
+    args: [
+      "project",
+      "item-edit",
+      "--id",
+      taskId,
+      "--project-id",
+      taskData.projectId,
+      "--field-id",
+      statusField.id,
+      "--single-select-option-id",
+      currentStatusItem.id,
+    ],
+  });
+}
 
 export async function main(denops: Denops): Promise<void> {
   const ghCmd = await getGHCmd(denops);
@@ -18,21 +52,18 @@ export async function main(denops: Denops): Promise<void> {
         "project",
         "item-edit",
         "--id",
-        taskData.taskId,
       ];
       if (taskData.taskType === "DraftIssue") {
-        new Deno.Command(ghCmd, {
+        await cmd(denops, ghCmd, {
           args: [
             ...editBaseArgs,
+            taskData.draftIssueID,
             "--title",
             taskData.title,
             "--body",
             taskData.body.join("\n"),
           ],
-          stdin: "null",
-          stderr: "null",
-          stdout: "null",
-        }).spawn();
+        });
       }
       for (const field of taskData.taskFields) {
         const editFieldArgs: string[] = [
@@ -42,45 +73,24 @@ export async function main(denops: Denops): Promise<void> {
           field.id,
         ];
         if (field.text) {
-          new Deno.Command(ghCmd, {
+          await cmd(denops, ghCmd, {
             args: [
               ...editBaseArgs,
+              taskData.taskId,
               ...editFieldArgs,
               "--text",
               field.text,
             ],
-            stdin: "null",
-            stderr: "null",
-            stdout: "null",
-          }).spawn();
-        }
-        if (field.options) {
-          if (field.name === "Status") {
-            const currentStatus = field.options.find((option) =>
-              option.currentStatusFlag
-            );
-            if (currentStatus) {
-              new Deno.Command(ghCmd, {
-                args: [
-                  ...editBaseArgs,
-                  ...editFieldArgs,
-                  "--single-select-option-id",
-                  currentStatus.id,
-                ],
-                stdin: "null",
-                stderr: "null",
-                stdout: "null",
-              }).spawn();
-            }
-          }
+          });
         }
       }
+      await updateTaskStatus(denops, taskData as TaskEdit, taskData.taskId);
       return await Promise.resolve();
     },
     async create(buflines: unknown): Promise<void> {
       const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
       const taskData = ensure(tomlParse(tomlString), isTaskCreate);
-      const { stdout } = new Deno.Command(ghCmd, {
+      const { pipeOut, finalize } = await cmd(denops, ghCmd, {
         args: [
           "project",
           "item-create",
@@ -94,14 +104,10 @@ export async function main(denops: Denops): Promise<void> {
           "--format",
           "json",
         ],
-        stdin: "null",
-        stderr: "null",
-        stdout: "piped",
-      }).spawn();
+      });
 
       let createResponse = {} as GHProjectTaskCreateResponse;
-      await stdout
-        .pipeThrough(new TextDecoderStream())
+      await pipeOut
         .pipeThrough(new JSONLinesParseStream())
         .pipeTo(
           new WritableStream<GHProjectTaskCreateResponse>({
@@ -109,33 +115,11 @@ export async function main(denops: Denops): Promise<void> {
               createResponse = response;
             },
           }),
-        ).finally(async () => {
-          await stdout.cancel();
-        });
+        );
 
-      const statusField = taskData.taskFields.find((taskField) =>
-        taskField.name === "Status"
-      ) as TaskField;
-      const currentStatusItem = statusField.options?.find((option) =>
-        option.currentStatusFlag
-      ) as TaskFieldOption;
-      new Deno.Command("gh", {
-        args: [
-          "project",
-          "item-edit",
-          "--id",
-          createResponse.id,
-          "--project-id",
-          taskData.projectId,
-          "--field-id",
-          statusField?.id,
-          "--single-select-option-id",
-          currentStatusItem.id,
-        ],
-        stdin: "null",
-        stderr: "null",
-        stdout: "null",
-      }).spawn();
+      await updateTaskStatus(denops, taskData as TaskCreate, createResponse.id);
+      await finalize();
+
       return await Promise.resolve();
     },
   };
