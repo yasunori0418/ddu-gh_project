@@ -23,7 +23,7 @@ export function cmd(
   };
 }
 
-export function defineAutocmd(
+export function quitPreBufferAutocmd(
   denops: Denops,
   bufnr: number,
   ctx: string,
