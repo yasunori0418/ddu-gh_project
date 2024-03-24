@@ -1,8 +1,6 @@
 import {
   BaseSource,
-  // SourceOptions,
   GatherArguments,
-  // DduOptions,
   Item,
   JSONLinesParseStream,
 } from "../ddu-gh_project/deps.ts";
