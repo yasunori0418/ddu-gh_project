@@ -1,5 +1,5 @@
 import { autocmd, Denops, fn, vars } from "./deps.ts";
-import { BufInfo } from "./type/task.ts";
+import { BufInfo } from "./type/common.ts";
 
 /**
  * Reference: https://github.com/kyoh86/denops-util/blob/622d3b7/command.ts#L36
