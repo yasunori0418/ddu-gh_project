@@ -111,7 +111,7 @@ export class Source extends BaseSource<Params> {
   override params(): Params {
     return {
       owner: "@me",
-      limit: 0,
+      limit: 30,
     };
   }
 }
