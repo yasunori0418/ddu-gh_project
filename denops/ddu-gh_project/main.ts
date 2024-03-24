@@ -6,7 +6,7 @@ import {
   TaskField,
   TaskFieldOption,
 } from "./type/task.ts";
-import { getGHCmd } from "./utils.ts";
+import { cmd, getGHCmd } from "./utils.ts";
 
 export async function main(denops: Denops): Promise<void> {
   const ghCmd = await getGHCmd(denops);
@@ -21,7 +21,7 @@ export async function main(denops: Denops): Promise<void> {
         taskData.taskId,
       ];
       if (taskData.taskType === "DraftIssue") {
-        new Deno.Command(ghCmd, {
+        const { finalize } = await cmd(denops, ghCmd, {
           args: [
             ...editBaseArgs,
             "--title",
@@ -29,10 +29,8 @@ export async function main(denops: Denops): Promise<void> {
             "--body",
             taskData.body.join("\n"),
           ],
-          stdin: "null",
-          stderr: "null",
-          stdout: "null",
-        }).spawn();
+        });
+        await finalize();
       }
       for (const field of taskData.taskFields) {
         const editFieldArgs: string[] = [
@@ -42,17 +40,15 @@ export async function main(denops: Denops): Promise<void> {
           field.id,
         ];
         if (field.text) {
-          new Deno.Command(ghCmd, {
+          const { finalize } = await cmd(denops, ghCmd, {
             args: [
               ...editBaseArgs,
               ...editFieldArgs,
               "--text",
               field.text,
             ],
-            stdin: "null",
-            stderr: "null",
-            stdout: "null",
-          }).spawn();
+          });
+          await finalize();
         }
         if (field.options) {
           if (field.name === "Status") {
@@ -60,17 +56,15 @@ export async function main(denops: Denops): Promise<void> {
               option.currentStatusFlag
             );
             if (currentStatus) {
-              new Deno.Command(ghCmd, {
+              const { finalize } = await cmd(denops, ghCmd, {
                 args: [
                   ...editBaseArgs,
                   ...editFieldArgs,
                   "--single-select-option-id",
                   currentStatus.id,
                 ],
-                stdin: "null",
-                stderr: "null",
-                stdout: "null",
-              }).spawn();
+              });
+              await finalize();
             }
           }
         }
