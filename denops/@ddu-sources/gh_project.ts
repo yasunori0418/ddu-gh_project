@@ -10,7 +10,7 @@ import {
   GHProject,
   SourceParams as Params,
 } from "../ddu-gh_project/type/project.ts";
-import { getGHCmd } from "../ddu-gh_project/utils.ts";
+import { cmd, getGHCmd } from "../ddu-gh_project/utils.ts";
 
 function parseGHProjectAction(project: GHProject): ActionData {
   const {
@@ -58,7 +58,7 @@ async function getProjectItems(
   sourceParams: Params,
 ): Promise<Item<ActionData>[]> {
   const ghCmd = await getGHCmd(denops);
-  const { stdout } = new Deno.Command(ghCmd, {
+  const { pipeOut, finalize } = await cmd(denops, ghCmd, {
     args: [
       "project",
       "list",
@@ -69,14 +69,10 @@ async function getProjectItems(
       "--format",
       "json",
     ],
-    stdin: "null",
-    stderr: "null",
-    stdout: "piped",
-  }).spawn();
+  });
 
   const projectItems: Item<ActionData>[] = [];
-  await stdout
-    .pipeThrough(new TextDecoderStream())
+  await pipeOut
     .pipeThrough(new JSONLinesParseStream())
     .pipeTo(
       new WritableStream<{ projects: GHProject[] }>({
@@ -86,9 +82,8 @@ async function getProjectItems(
           }
         },
       }),
-    ).finally(async () => {
-      await stdout.cancel();
-    });
+    );
+  await finalize();
 
   return projectItems;
 }
