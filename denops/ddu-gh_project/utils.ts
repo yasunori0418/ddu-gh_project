@@ -1,23 +1,36 @@
-import { autocmd, Denops, fn, vars } from "./deps.ts";
+import { autocmd, Denops, fn, TextLineStream, vars, echoerr } from "./deps.ts";
 import { BufInfo } from "./type/common.ts";
 
 /**
  * Reference: https://github.com/kyoh86/denops-util/blob/622d3b7/command.ts#L36
  */
-export function cmd(
+export async function cmd(
+  denops: Denops,
   command: string | URL,
   options?: Omit<Deno.CommandOptions, "stdin" | "stderr" | "stdout">,
 ) {
-  const { stdout } = new Deno.Command(command, {
+  const { stdout, stderr } = new Deno.Command(command, {
     ...options,
     stdin: "null",
-    stderr: "null",
+    stderr: "piped",
     stdout: "piped",
   }).spawn();
+
+  await stderr
+    .pipeThrough(new TextDecoderStream())
+    .pipeThrough(new TextLineStream())
+    .pipeTo(
+      new WritableStream({
+        write: (chunk) => {
+          echoerr(denops, chunk)
+        },
+      }),
+    );
 
   return {
     pipeOut: stdout.pipeThrough(new TextDecoderStream()),
     finalize: async () => {
+      await stdout.cancel();
       await stdout.cancel();
     },
   };
