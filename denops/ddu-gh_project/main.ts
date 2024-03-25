@@ -85,7 +85,11 @@ export async function main(denops: Denops): Promise<void> {
           });
         }
       }
-      await updateTaskStatus(denops, taskData as TaskEdit, taskData.taskId);
+      await updateTaskStatus<TaskEdit>(
+        denops,
+        taskData as TaskEdit,
+        taskData.taskId,
+      );
       return await Promise.resolve();
     },
     async create(buflines: unknown): Promise<void> {
@@ -118,7 +122,11 @@ export async function main(denops: Denops): Promise<void> {
           }),
         );
 
-      await updateTaskStatus(denops, taskData as TaskCreate, createResponse.id);
+      await updateTaskStatus<TaskCreate>(
+        denops,
+        taskData as TaskCreate,
+        createResponse.id,
+      );
       await finalize();
 
       return await Promise.resolve();
