@@ -23,8 +23,10 @@ export {
 export { type Params as UiFfParams } from "https://deno.land/x/ddu_ui_ff@v1.1.0/ff.ts";
 
 export { ensure, is } from "https://deno.land/x/unknownutil@v3.17.0/mod.ts";
+export { echoerr } from "https://deno.land/x/denops_std@v6.4.0/helper/mod.ts";
 
 export { JSONLinesParseStream } from "https://deno.land/x/jsonlines@v1.2.2/mod.ts";
+export { TextLineStream } from "https://deno.land/std@0.220.1/streams/text_line_stream.ts";
 
 export {
   parse as tomlParse,

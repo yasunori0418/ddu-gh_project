@@ -1,5 +1,5 @@
 import { ActionArguments, ActionFlags, tomlStringify } from "../../deps.ts";
-import { createScratchBuffer, defineAutocmd } from "../../utils.ts";
+import { createScratchBuffer, quitPreBufferAutocmd } from "../../utils.ts";
 import {
   ActionData,
   KindParams as Params,
@@ -63,7 +63,7 @@ export async function edit(
     createTomlData(action),
   );
 
-  defineAutocmd(
+  quitPreBufferAutocmd(
     denops,
     bufnr,
     `call ddu_gh_project#send(${bufnr}, "edit")`,
@@ -76,3 +76,4 @@ export async function edit(
   ) as Promise<void>;
   return await Promise.resolve(ActionFlags.None);
 }
+

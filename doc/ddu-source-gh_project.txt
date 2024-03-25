@@ -56,7 +56,7 @@ limit		(number)
 		`gh project item-list --limit`
 		Maximum number of items to fetch.
 
-		Default: 1000
+		Default: 30
 
 
 ==============================================================================

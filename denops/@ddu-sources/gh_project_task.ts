@@ -1,8 +1,7 @@
 import {
   BaseSource,
-  // SourceOptions,
+  Denops,
   GatherArguments,
-  // DduOptions,
   Item,
   JSONLinesParseStream,
 } from "../ddu-gh_project/deps.ts";
@@ -12,7 +11,7 @@ import {
   GHProjectTaskField,
   SourceParams as Params,
 } from "../ddu-gh_project/type/task.ts";
-import { getGHCmd } from "../ddu-gh_project/utils.ts";
+import { cmd, getGHCmd } from "../ddu-gh_project/utils.ts";
 
 function parseActionData(
   task: GHProjectTask,
@@ -52,6 +51,7 @@ function parseSourceItems(
 }
 
 async function getProjectTaskFields(
+  denops: Denops,
   sourceParams: Params,
   ghCmd: string,
 ): Promise<GHProjectTaskField[]> {
@@ -60,7 +60,7 @@ async function getProjectTaskFields(
   const projectId = sourceParams.projectId;
   if (!projectId) throw "required projectId";
 
-  const { stdout } = new Deno.Command(ghCmd, {
+  const { pipeOut, finalize } = await cmd(denops, ghCmd, {
     args: [
       "project",
       "field-list",
@@ -72,14 +72,10 @@ async function getProjectTaskFields(
       "--format",
       "json",
     ],
-    stdin: "null",
-    stderr: "null",
-    stdout: "piped",
-  }).spawn();
+  });
 
   const taskFields: GHProjectTaskField[] = [];
-  await stdout
-    .pipeThrough(new TextDecoderStream())
+  await pipeOut
     .pipeThrough(new JSONLinesParseStream())
     .pipeTo(
       new WritableStream<{ fields: GHProjectTaskField[] }>({
@@ -89,13 +85,14 @@ async function getProjectTaskFields(
           }
         },
       }),
-    ).finally(async () => {
-      await stdout.cancel();
-    });
+    );
+  await finalize();
+
   return taskFields;
 }
 
 async function getTaskItems(
+  denops: Denops,
   sourceParams: Params,
   taskFields: GHProjectTaskField[],
   ghCmd: string,
@@ -103,7 +100,7 @@ async function getTaskItems(
   const projectNumber = sourceParams.projectNumber;
   if (!projectNumber) throw "required projectNumber";
 
-  const { stdout } = new Deno.Command(ghCmd, {
+  const { pipeOut, finalize } = await cmd(denops, ghCmd, {
     args: [
       "project",
       "item-list",
@@ -115,14 +112,10 @@ async function getTaskItems(
       "--format",
       "json",
     ],
-    stdin: "null",
-    stderr: "null",
-    stdout: "piped",
-  }).spawn();
+  });
 
   const taskItems: Item<ActionData>[] = [];
-  await stdout
-    .pipeThrough(new TextDecoderStream())
+  await pipeOut
     .pipeThrough(new JSONLinesParseStream())
     .pipeTo(
       new WritableStream<{ items: GHProjectTask[] }>({
@@ -132,9 +125,8 @@ async function getTaskItems(
           }
         },
       }),
-    ).finally(async () => {
-      await stdout.cancel();
-    });
+    );
+  await finalize();
 
   return taskItems;
 }
@@ -151,8 +143,17 @@ export class Source extends BaseSource<Params> {
         if (!projectNumber) throw "required projectNumber";
         const ghCmd = await getGHCmd(denops);
 
-        const taskFields = await getProjectTaskFields(sourceParams, ghCmd);
-        const taskItems = await getTaskItems(sourceParams, taskFields, ghCmd);
+        const taskFields = await getProjectTaskFields(
+          denops,
+          sourceParams,
+          ghCmd,
+        );
+        const taskItems = await getTaskItems(
+          denops,
+          sourceParams,
+          taskFields,
+          ghCmd,
+        );
         controller.enqueue(taskItems.reverse());
         controller.close();
       },
