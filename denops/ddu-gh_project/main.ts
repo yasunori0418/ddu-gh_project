@@ -1,20 +1,18 @@
-import { Denops, ensure, is, JSONLinesParseStream, tomlParse } from "./deps.ts";
+import { Denops, ensure, is, tomlParse } from "./deps.ts";
 import {
-  GHProjectTaskCreateResponse,
   isTaskCreate,
   isTaskEdit,
   TaskCreate,
   TaskEdit,
 } from "./type/task.ts";
-import { cmd, getGHCmd } from "./utils.ts";
 import {
+  createTask,
   updateDraftIssueContent,
   updateTaskFields,
   updateTaskStatus,
 } from "./queries.ts";
 
-export async function main(denops: Denops): Promise<void> {
-  const ghCmd = await getGHCmd(denops);
+export function main(denops: Denops): Promise<void> {
   denops.dispatcher = {
     async edit(buflines: unknown): Promise<void> {
       const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
@@ -37,39 +35,13 @@ export async function main(denops: Denops): Promise<void> {
         tomlParse(tomlString),
         isTaskCreate,
       ) as TaskCreate;
-      const { pipeOut, finalize } = await cmd(denops, ghCmd, {
-        args: [
-          "project",
-          "item-create",
-          taskData.projectNumber.toString(),
-          "--owner",
-          taskData.owner,
-          "--title",
-          taskData.title,
-          "--body",
-          taskData.body.join("\n"),
-          "--format",
-          "json",
-        ],
-      });
-
-      let createResponse = {} as GHProjectTaskCreateResponse;
-      await pipeOut
-        .pipeThrough(new JSONLinesParseStream())
-        .pipeTo(
-          new WritableStream<GHProjectTaskCreateResponse>({
-            write(response: GHProjectTaskCreateResponse) {
-              createResponse = response;
-            },
-          }),
-        );
+      const taskId = await createTask(denops, taskData);
 
       await updateTaskStatus<TaskCreate>(
         denops,
         taskData as TaskCreate,
-        createResponse.id,
+        taskId,
       );
-      await finalize();
 
       return await Promise.resolve();
     },

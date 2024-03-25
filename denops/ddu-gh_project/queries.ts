@@ -1,5 +1,6 @@
-import { Denops } from "./deps.ts";
+import { Denops, JSONLinesParseStream } from "./deps.ts";
 import {
+  GHProjectTaskCreateResponse,
   TaskCreate,
   TaskEdit,
   TaskField,
@@ -99,3 +100,42 @@ export async function updateTaskFields(
   }
 }
 
+/**
+ * create task
+ * @param denops instance object.
+ * @param taskData target task data.
+ */
+export async function createTask(
+  denops: Denops,
+  taskData: TaskCreate,
+): Promise<string> {
+  const ghCmd = await getGHCmd(denops);
+  const { pipeOut, finalize } = await cmd(denops, ghCmd, {
+    args: [
+      "project",
+      "item-create",
+      taskData.projectNumber.toString(),
+      "--owner",
+      taskData.owner,
+      "--title",
+      taskData.title,
+      "--body",
+      taskData.body.join("\n"),
+      "--format",
+      "json",
+    ],
+  });
+
+  let createResponse = {} as GHProjectTaskCreateResponse;
+  await pipeOut
+    .pipeThrough(new JSONLinesParseStream())
+    .pipeTo(
+      new WritableStream<GHProjectTaskCreateResponse>({
+        write(response: GHProjectTaskCreateResponse) {
+          createResponse = response;
+        },
+      }),
+    );
+  await finalize();
+  return await Promise.resolve(createResponse.id);
+}
