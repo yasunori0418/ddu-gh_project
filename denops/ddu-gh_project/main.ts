@@ -5,111 +5,25 @@ import {
   isTaskEdit,
   TaskCreate,
   TaskEdit,
-  TaskField,
-  TaskFieldOption,
 } from "./type/task.ts";
 import { cmd, getGHCmd } from "./utils.ts";
-
-/**
- * update target task status.
- * @param denops instance object.
- * @param taskData target task data.
- * @param taskId id of `PVIT_` prefix
- */
-async function updateTaskStatus<T extends TaskEdit | TaskCreate>(
-  denops: Denops,
-  taskData: T,
-  taskId: string,
-): Promise<void> {
-  const ghCmd = await getGHCmd(denops);
-  const statusField = taskData.taskFields.find((taskField) =>
-    taskField.name === "Status"
-  ) as TaskField;
-  const currentStatusItem = statusField.options?.find((option) =>
-    option.currentStatusFlag
-  ) as TaskFieldOption;
-  await cmd(denops, ghCmd, {
-    args: [
-      "project",
-      "item-edit",
-      "--id",
-      taskId,
-      "--project-id",
-      taskData.projectId,
-      "--field-id",
-      statusField.id,
-      "--single-select-option-id",
-      currentStatusItem.id,
-    ],
-  });
-}
-
-/**
- * update DraftIssue title and body
- * @param denops instance object.
- * @param taskData target task data.
- */
-async function updateDraftIssueContent(
-  denops: Denops,
-  taskData: TaskEdit,
-): Promise<void> {
-  if (taskData.taskType === "DraftIssue") return;
-  const ghCmd = await getGHCmd(denops);
-  await cmd(denops, ghCmd, {
-    args: [
-      "project",
-      "item-edit",
-      "--id",
-      taskData.draftIssueID,
-      "--title",
-      taskData.title,
-      "--body",
-      taskData.body.join("\n"),
-    ],
-  });
-}
-
-/**
- * update task field content.
- * @param denops instance object.
- * @param taskData target task data.
- */
-async function updateTaskFields(
-  denops: Denops,
-  taskData: TaskEdit,
-): Promise<void> {
-  const ghCmd = await getGHCmd(denops);
-  for (const field of taskData.taskFields) {
-    const editFieldArgs: string[] = [
-      "project",
-      "item-edit",
-      "--id",
-      taskData.taskId,
-      "--project-id",
-      taskData.projectId,
-      "--field-id",
-      field.id,
-    ];
-    if (field.text) {
-      await cmd(denops, ghCmd, {
-        args: [
-          ...editFieldArgs,
-          "--text",
-          field.text,
-        ],
-      });
-    }
-  }
-}
+import {
+  updateDraftIssueContent,
+  updateTaskFields,
+  updateTaskStatus,
+} from "./queries.ts";
 
 export async function main(denops: Denops): Promise<void> {
   const ghCmd = await getGHCmd(denops);
   denops.dispatcher = {
     async edit(buflines: unknown): Promise<void> {
       const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
-      const taskData = ensure(tomlParse(tomlString), isTaskEdit);
-      await updateDraftIssueContent(denops, taskData as TaskEdit);
-      await updateTaskFields(denops, taskData as TaskEdit);
+      const taskData = ensure(
+        tomlParse(tomlString),
+        isTaskEdit,
+      ) as TaskEdit;
+      await updateDraftIssueContent(denops, taskData);
+      await updateTaskFields(denops, taskData);
       await updateTaskStatus<TaskEdit>(
         denops,
         taskData as TaskEdit,
@@ -119,7 +33,10 @@ export async function main(denops: Denops): Promise<void> {
     },
     async create(buflines: unknown): Promise<void> {
       const tomlString = ensure(buflines, is.ArrayOf(is.String)).join("\n");
-      const taskData = ensure(tomlParse(tomlString), isTaskCreate);
+      const taskData = ensure(
+        tomlParse(tomlString),
+        isTaskCreate,
+      ) as TaskCreate;
       const { pipeOut, finalize } = await cmd(denops, ghCmd, {
         args: [
           "project",
