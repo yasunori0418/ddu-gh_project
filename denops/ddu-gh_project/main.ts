@@ -42,6 +42,31 @@ async function updateTaskStatus<T extends TaskEdit | TaskCreate>(
   });
 }
 
+/**
+ * update DraftIssue title and body
+ * @param denops instance object.
+ * @param taskData target task data.
+ */
+async function updateDraftIssueContent(
+  denops: Denops,
+  taskData: TaskEdit,
+): Promise<void> {
+  if (taskData.taskType === "DraftIssue") return;
+  const ghCmd = await getGHCmd(denops);
+  await cmd(denops, ghCmd, {
+    args: [
+      "project",
+      "item-edit",
+      "--id",
+      taskData.draftIssueID,
+      "--title",
+      taskData.title,
+      "--body",
+      taskData.body.join("\n"),
+    ],
+  });
+}
+
 export async function main(denops: Denops): Promise<void> {
   const ghCmd = await getGHCmd(denops);
   denops.dispatcher = {
@@ -52,19 +77,7 @@ export async function main(denops: Denops): Promise<void> {
         "project",
         "item-edit",
       ];
-      if (taskData.taskType === "DraftIssue") {
-        await cmd(denops, ghCmd, {
-          args: [
-            ...editBaseArgs,
-            "--id",
-            taskData.draftIssueID,
-            "--title",
-            taskData.title,
-            "--body",
-            taskData.body.join("\n"),
-          ],
-        });
-      }
+      updateDraftIssueContent(denops, taskData as TaskEdit);
       for (const field of taskData.taskFields) {
         const editFieldArgs: string[] = [
           "--project-id",
