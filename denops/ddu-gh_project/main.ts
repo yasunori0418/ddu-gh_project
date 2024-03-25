@@ -1,10 +1,5 @@
 import { Denops, ensure, is, tomlParse } from "./deps.ts";
-import {
-  isTaskCreate,
-  isTaskEdit,
-  TaskCreate,
-  TaskEdit,
-} from "./type/task.ts";
+import { isTaskCreate, isTaskEdit, TaskCreate, TaskEdit } from "./type/task.ts";
 import {
   createTask,
   updateDraftIssueContent,
@@ -24,7 +19,7 @@ export function main(denops: Denops): Promise<void> {
       await updateTaskFields(denops, taskData);
       await updateTaskStatus<TaskEdit>(
         denops,
-        taskData as TaskEdit,
+        taskData,
         taskData.taskId,
       );
       return await Promise.resolve();
@@ -39,7 +34,7 @@ export function main(denops: Denops): Promise<void> {
 
       await updateTaskStatus<TaskCreate>(
         denops,
-        taskData as TaskCreate,
+        taskData,
         taskId,
       );
 
