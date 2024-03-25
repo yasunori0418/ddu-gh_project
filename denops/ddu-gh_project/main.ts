@@ -51,12 +51,12 @@ export async function main(denops: Denops): Promise<void> {
       const editBaseArgs: string[] = [
         "project",
         "item-edit",
-        "--id",
       ];
       if (taskData.taskType === "DraftIssue") {
         await cmd(denops, ghCmd, {
           args: [
             ...editBaseArgs,
+            "--id",
             taskData.draftIssueID,
             "--title",
             taskData.title,
@@ -76,6 +76,7 @@ export async function main(denops: Denops): Promise<void> {
           await cmd(denops, ghCmd, {
             args: [
               ...editBaseArgs,
+              "--id",
               taskData.taskId,
               ...editFieldArgs,
               "--text",
