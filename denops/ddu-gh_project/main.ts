@@ -12,7 +12,9 @@ import { cmd, getGHCmd } from "./utils.ts";
 
 /**
  * update target task status.
+ * @param denops instance object.
  * @param taskData target task data.
+ * @param taskId id of `PVIT_` prefix
  */
 async function updateTaskStatus<T extends TaskEdit | TaskCreate>(
   denops: Denops,
