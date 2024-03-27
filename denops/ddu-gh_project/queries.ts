@@ -51,7 +51,7 @@ export async function updateDraftIssueContent(
   denops: Denops,
   taskData: TaskEdit,
 ): Promise<void> {
-  if (taskData.taskType === "DraftIssue") return;
+  if (taskData.taskType !== "DraftIssue") return;
   const ghCmd = await getGHCmd(denops);
   await cmd(denops, ghCmd, {
     args: [
