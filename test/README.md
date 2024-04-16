@@ -15,7 +15,7 @@ This minimal configuration defines commands to run `gh_project` and `gh_project_
 
 Displays a list of Projects created in your GitHub account.
 
-```vimscript
+```vim
 :ProjectList
 ```
 
@@ -29,8 +29,28 @@ key, description
 > [!WARNING]
 > For test behavior, the `ProjectNumber` and `ProjectId` of the GitHubProject I using are set.
 > When using, please change `ProjectNumber` and `ProjectId` set in the code.
+> 
+> [change area](./.vimrc#L65-L66)
 
-```vimscript
+```diff
+ " please change projectId and projectNumber with your account project of
+ " things.
+ call ddu#custom#patch_local('gh_project_task', #{
+   \ sources: [
+     \ #{
+       \ name: 'gh_project_task',
+       \ params: #{
+         \ owner: '@me',
++        \ projectId: 'PVT_kwHOBHUnA84ASqYZ',
++        \ projectNumber: 4,
+       \ },
+     \ },
+   \ ],
+ \ })
+```
+
+
+```vim
 :TaskList
 ```
 
