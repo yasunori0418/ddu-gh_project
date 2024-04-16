@@ -59,7 +59,7 @@ call ddu#custom#patch_local('gh_project', #{
 call ddu#custom#patch_local('gh_project_task', #{
   \ sources: [
     \ #{
-      \ name: 'gh_project_list',
+      \ name: 'gh_project_task',
       \ params: #{
         \ owner: '@me',
         \ projectId: 'PVT_kwHOBHUnA84ASqYZ',
