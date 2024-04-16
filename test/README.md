@@ -7,6 +7,9 @@ Inside the test directory, run the following command.
 vim -u .vimrc
 ```
 
+![output](https://github.com/yasunori0418/ddu-gh_project/assets/74786563/5479191d-efc4-4383-887f-547d7162efe4)
+
+
 ## Commands
 
 This minimal configuration defines commands to run `gh_project` and `gh_project_task`.
