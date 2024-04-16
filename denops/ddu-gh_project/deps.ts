@@ -26,9 +26,9 @@ export { ensure, is } from "https://deno.land/x/unknownutil@v3.18.0/mod.ts";
 export { echoerr } from "https://deno.land/x/denops_std@v6.4.0/helper/mod.ts";
 
 export { JSONLinesParseStream } from "https://deno.land/x/jsonlines@v1.2.2/mod.ts";
-export { TextLineStream } from "https://deno.land/std@0.222.1/streams/text_line_stream.ts";
+export { TextLineStream } from "https://deno.land/std@0.223.0/streams/text_line_stream.ts";
 
 export {
   parse as tomlParse,
   stringify as tomlStringify,
-} from "https://deno.land/std@0.222.1/toml/mod.ts";
+} from "https://deno.land/std@0.223.0/toml/mod.ts";
