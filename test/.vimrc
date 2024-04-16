@@ -13,6 +13,7 @@ const s:plugins = [
   \ 'vim-denops/denops.vim',
   \ 'Shougo/ddu.vim',
   \ 'Shougo/ddu-ui-ff',
+  \ 'Shougo/ddu-filter-matcher_substring',
   \ 'yasunori0418/ddu-gh_project',
 \ ]
 
