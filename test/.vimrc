@@ -14,6 +14,7 @@ const s:plugins = [
   \ 'Shougo/ddu.vim',
   \ 'Shougo/ddu-ui-ff',
   \ 'Shougo/ddu-filter-matcher_substring',
+  \ 'Shougo/ddu-source-action',
   \ 'yasunori0418/ddu-gh_project',
 \ ]
 
