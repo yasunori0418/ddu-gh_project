@@ -10,16 +10,16 @@ export {
   type PreviewContext,
   type Previewer,
   type SourceOptions,
-} from "https://deno.land/x/ddu_vim@v4.0.0/types.ts";
+} from "https://deno.land/x/ddu_vim@v4.1.1/types.ts";
 export {
   type GatherArguments,
-} from "https://deno.land/x/ddu_vim@v4.0.0/base/source.ts";
+} from "https://deno.land/x/ddu_vim@v4.1.1/base/source.ts";
 export {
   autocmd,
   type Denops,
   fn,
   vars,
-} from "https://deno.land/x/ddu_vim@v4.0.0/deps.ts";
+} from "https://deno.land/x/ddu_vim@v4.1.1/deps.ts";
 export { type Params as UiFfParams } from "https://deno.land/x/ddu_ui_ff@v1.1.0/ff.ts";
 
 export { ensure, is } from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
