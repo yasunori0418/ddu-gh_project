@@ -20,7 +20,7 @@ export {
   fn,
   vars,
 } from "https://deno.land/x/ddu_vim@v4.2.0/deps.ts";
-export { type Params as UiFfParams } from "https://deno.land/x/ddu_ui_ff@v1.1.0/ff.ts";
+export { type Params as UiFfParams } from "https://deno.land/x/ddu_ui_ff@v1.2.0/ff.ts";
 
 export { ensure, is } from "https://deno.land/x/unknownutil@v3.18.1/mod.ts";
 export { echoerr } from "https://deno.land/x/denops_std@v6.5.1/helper/mod.ts";
